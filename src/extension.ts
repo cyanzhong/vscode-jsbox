@@ -2,6 +2,7 @@
 
 import {commands, workspace, window, ExtensionContext} from 'vscode';
 
+const watchers={}
 // Extension activate
 export function activate(context: ExtensionContext) {
 
@@ -9,9 +10,18 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(commands.registerCommand('extension.setHost', setHost));
 
   // Observe file changes
+  bindWatcher()
+  window.onDidChangeActiveTextEditor(bindWatcher)
+}
+
+function bindWatcher(){
   let path = window.activeTextEditor.document.fileName;
-  let watcher = workspace.createFileSystemWatcher(path);
-  watcher.onDidChange(syncFile);
+  if(path.search(/\.js$/)>0&&!watchers[path]){
+    // console.log(`add watcher ${path}`);
+    let watcher = workspace.createFileSystemWatcher(path);
+    watcher.onDidChange(syncFile);
+    watchers[path] = watcher;
+  }
 }
 
 // Configure the host
