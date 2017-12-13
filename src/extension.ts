@@ -2,7 +2,8 @@
 
 import {commands, workspace, window, ExtensionContext} from 'vscode';
 
-const watchers={}
+const watchers = {}
+
 // Extension activate
 export function activate(context: ExtensionContext) {
 
@@ -14,10 +15,9 @@ export function activate(context: ExtensionContext) {
   window.onDidChangeActiveTextEditor(bindWatcher)
 }
 
-function bindWatcher(){
+function bindWatcher() {
   let path = window.activeTextEditor.document.fileName;
-  if(path.search(/\.js$/)>0&&!watchers[path]){
-    // console.log(`add watcher ${path}`);
+  if (path.search(/\.js$/i) > 0 && !watchers[path]) {
     let watcher = workspace.createFileSystemWatcher(path);
     watcher.onDidChange(syncFile);
     watchers[path] = watcher;
