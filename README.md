@@ -8,11 +8,13 @@ The most important is, when you save a script on VSCode, it runs on your iPhone 
 
 ## Extension Settings
 
+Note: Make sure your iPhone and computer are on the same Wi-Fi.
+
 On iPhone, turn on debug mode of JSBox and restart the app, you can see the `Host` in the settings view.
 
 On VSCode, you need to set `host`:
 
-* `jsbox.host`: web server host
+* `JSBox configuration` -> `host`: web server host
 
 There are also two super easy ways to setup host:
 

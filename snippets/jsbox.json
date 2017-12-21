@@ -1,5 +1,4 @@
 {
-  // $device
   "$device.info": {
     "prefix": "$device.info",
     "body": [
@@ -35,8 +34,6 @@
     ],
     "description": "Trigger a taptic feedback"
   },
-
-  // $app
   "$app.minSDKVer": {
     "prefix": "$app.minSDKVer",
     "body": [
@@ -145,8 +142,6 @@
     ],
     "description": "Observe notifications from addin"
   },
-
-  // $system
   "$system.brightness": {
     "prefix": "$system.brightness",
     "body": [
@@ -189,8 +184,6 @@
     ],
     "description": "Start a FaceTime session"
   },
-
-  // $http
   "$http.request(object)": {
     "prefix": "$http.request",
     "body": [
@@ -308,8 +301,6 @@
     ],
     "description": "Expand a URL"
   },
-
-  // $cache
   "$cache.set(string, object)": {
     "prefix": "$cache.set",
     "body": [
@@ -386,8 +377,6 @@
     ],
     "description": "Clear all cached object (async)"
   },
-
-  // $thread
   "$thread.background(object)": {
     "prefix": "$thread.background",
     "body": [
@@ -433,8 +422,6 @@
     ],
     "description": "Schedule a timer"
   },
-
-  // $clipboard
   "$clipboard.text": {
     "prefix": "$clipboard.text",
     "body": [
@@ -547,8 +534,6 @@
     ],
     "description": "Clear clipboard"
   },
-
-  // $l10n
   "$l10n": {
     "prefix": "$l10n",
     "body": [
@@ -556,8 +541,6 @@
     ],
     "description": "Get localized string"
   },
-
-  // Builtins
   "$rect(x, y, width, height)": {
     "prefix": "$rect",
     "body": [
@@ -791,25 +774,23 @@
     ],
     "description": "PageSize constants"
   },
-  
-  // $ui
   "$ui.render": {
     "prefix": "$ui.render",
     "body": [
       "\\$ui.render({",
       "\tprops: {",
-      "\t\t",
+      "\t\ttitle: \"$1\"",
       "\t},",
       "\tviews: [{",
-      "\t\ttype: \"${1|view|label|tab|button|input|slider|switch|spinner|progress|gallery|stepper|image|scroll|text|map|web|list|matrix|date-picker|picker|video|canvas|menu|}\",",
+      "\t\ttype: \"${2|view,label,tab,button,input,slider,switch,spinner,progress,gallery,stepper,image,scroll,text,map,web,list,matrix,date-picker,picker,video,canvas,menu|}\",",
       "\t\tprops: {",
-      "\t\t\tid: \"$2\"",
+      "\t\t\tid: \"$3\"",
       "\t\t},",
       "\t\tlayout: function(make, view) {",
-      "\t\t\t$3",
+      "\t\t\t$4",
       "\t\t},",
       "\t\tevents: {",
-      "\t\t\t$4",
+      "\t\t\t$5",
       "\t\t}",
       "\t}]",
       "})"
@@ -821,18 +802,18 @@
     "body": [
       "\\$ui.push({",
       "\tprops: {",
-      "\t\t",
+      "\t\ttitle: \"$1\"",
       "\t},",
       "\tviews: [{",
-      "\t\ttype: \"${1|view|label|tab|button|input|slider|switch|spinner|progress|gallery|stepper|image|scroll|text|map|web|list|matrix|date-picker|picker|video|canvas|menu|}\",",
+      "\t\ttype: \"${2|view,label,tab,button,input,slider,switch,spinner,progress,gallery,stepper,image,scroll,text,map,web,list,matrix,date-picker,picker,video,canvas,menu|}\",",
       "\t\tprops: {",
-      "\t\t\tid: \"$2\"",
+      "\t\t\tid: \"$3\"",
       "\t\t},",
       "\t\tlayout: function(make, view) {",
-      "\t\t\t$3",
+      "\t\t\t$4",
       "\t\t},",
       "\t\tevents: {",
-      "\t\t\t$4",
+      "\t\t\t$5",
       "\t\t}",
       "\t}]",
       "})"
@@ -1016,8 +997,6 @@
     ],
     "description": "Input a text"
   },
-
-  // $context
   "$context.query": {
     "prefix": "$context.query",
     "body": [
@@ -1102,8 +1081,6 @@
     ],
     "description": "Close current context(extension)"
   },
-
-  // $file
   "$file.read(path)": {
     "prefix": "$file.read",
     "body": [
@@ -1176,8 +1153,6 @@
     ],
     "description": "Check whether a path is directory"
   },
-
-  // $drive
   "$drive.open(object)": {
     "prefix": "$drive.open",
     "body": [
@@ -1273,8 +1248,6 @@
     ],
     "description": "Check whether a path is directory"
   },
-
-  // $addin
   "$addin.list": {
     "prefix": "$addin.list",
     "body": [
@@ -1306,8 +1279,6 @@
     ],
     "description": "Run an existed addin with name"
   },
-  
-  // $photo
   "$photo.take(object)": {
     "prefix": "$photo.take",
     "body": [
@@ -1383,8 +1354,6 @@
     ],
     "description": "Delete photos in library"
   },
-
-  // $audio
   "$audio.play(object)": {
     "prefix": "$audio.play",
     "body": [
@@ -1392,8 +1361,6 @@
     ],
     "description": "Play audio track"
   },
-
-  // $pdf
   "$pdf.make(object)": {
     "prefix": "$pdf.make",
     "body": [
@@ -1408,8 +1375,6 @@
     ],
     "description": "Make PDF document"
   },
-
-  // $message
   "$message.sms(object)": {
     "prefix": "$message.sms",
     "body": [
@@ -1438,8 +1403,6 @@
     ],
     "description": "Send an email"
   },
-
-  // $calendar
   "$calendar.fetch(object)": {
     "prefix": "$calendar.fetch",
     "body": [
@@ -1488,8 +1451,6 @@
     ],
     "description": "Delete a calendar item"
   },
-
-  // $reminder
   "$reminder.fetch(object)": {
     "prefix": "$reminder.fetch",
     "body": [
@@ -1543,8 +1504,6 @@
     ],
     "description": "Delete a reminder item"
   },
-
-  // $contact
   "$contact.pick(object)": {
     "prefix": "$contact.pick",
     "body": [
@@ -1612,8 +1571,6 @@
     ],
     "description": "Delete some contacts"
   },
-
-  // $location
   "$location.fetch(object)": {
     "prefix": "$location.fetch",
     "body": [
@@ -1666,8 +1623,6 @@
     ],
     "description": "Stop track user location"
   },
-
-  // $motion
   "$motion.startUpdates(object)": {
     "prefix": "$motion.startUpdates",
     "body": [
@@ -1687,8 +1642,6 @@
     ],
     "description": "Stop track sensor data"
   },
-
-  // $safari
   "$safari.open(object)": {
     "prefix": "$safari.open",
     "body": [
@@ -1703,8 +1656,6 @@
     ],
     "description": "Open URL with Safari"
   },
-
-  // $text
   "$text.tokenize(object)": {
     "prefix": "$text.tokenize",
     "body": [
@@ -1797,8 +1748,6 @@
     ],
     "description": "SHA256"
   },
-  
-  // $share
   "$share.sheet(object)": {
     "prefix": "$share.sheet",
     "body": [
@@ -1820,8 +1769,6 @@
     ],
     "description": "Share media to QQ"
   },
-
-  // $qrcode
   "$qrcode.encode(string)": {
     "prefix": "$qrcode.encode",
     "body": [
@@ -1850,8 +1797,6 @@
     ],
     "description": "Scan qrcode with camera"
   },
-
-  // $push
   "$push.schedule(object)": {
     "prefix": "$push.schedule",
     "body": [
@@ -1873,8 +1818,6 @@
     ],
     "description": "Cancel a local push notification"
   },
-
-  // $archiver
   "$archiver.zip(object)": {
     "prefix": "$archiver.zip",
     "body": [
@@ -1901,8 +1844,6 @@
     ],
     "description": "Unarchive a zip file"
   },
-
-  // $detector
   "$detector.date(string)": {
     "prefix": "$detector.date",
     "body": [
@@ -1955,8 +1896,6 @@
     ],
     "description": "Create an objective-c class dynamically"
   },
-
-  // $console
   "$console.info(string)": {
     "prefix": "$console.info",
     "body": [
