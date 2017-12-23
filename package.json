@@ -19,7 +19,9 @@
       "xTeko",
       "xteko"
     ],
-    "categories": ["Other"],
+    "categories": [
+        "Other"
+    ],
     "activationEvents": [
       "onDebug",
       "onLanguage:javascript"
@@ -46,7 +48,7 @@
         "type": "object",
         "title": "JSBox configuration",
         "properties": {
-          "host": {
+                "jsBox.host": {
             "type": "string",
             "default": "",
             "description": "Fill this with your connect host."
@@ -55,14 +57,14 @@
       },
       "commands": [
         {
-          "command": "extension.setHost",
-          "title": "Set Host"
+                "command": "jsBox.setHost",
+                "title": "JSBox: Set Host"
         }
       ],
       "menus": {
         "editor/title": [
           {
-            "command": "extension.setHost"
+                    "command": "jsBox.setHost"
           }
         ]
       },
@@ -70,7 +72,10 @@
         {
           "scopeName": "source.jsbox",
           "path": "./syntaxes/jsbox.json",
-          "injectTo": ["source.js", "source.ts"]
+                "injectTo": [
+                    "source.js",
+                    "source.ts"
+                ]
         }
       ],
       "snippets": [
@@ -80,4 +85,4 @@
         }
       ]
     }
-  }
+}
