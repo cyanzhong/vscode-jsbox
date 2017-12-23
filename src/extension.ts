@@ -10,6 +10,9 @@ export function activate(context: ExtensionContext) {
   // Observe command to setup host
   context.subscriptions.push(commands.registerCommand('jsBox.setHost', setHost));
 
+  // Observe command to upload file
+  context.subscriptions.push(commands.registerCommand('jsBox.upload', syncFile));
+
   // Observe file changes
   bindWatcher();
   window.onDidChangeActiveTextEditor(bindWatcher);
@@ -19,9 +22,14 @@ function bindWatcher() {
   let path = window.activeTextEditor.document.fileName;
   if (path.search(/\.js$/i) > 0 && !watchers[path]) {
     let watcher = workspace.createFileSystemWatcher(path);
-    watcher.onDidChange(syncFile);
+    watcher.onDidChange(checkAutoUpload);
     watchers[path] = watcher;
   }
+}
+
+function checkAutoUpload() {
+  if (workspace.getConfiguration('jsBox').get('autoUpload'))
+    syncFile();
 }
 
 // Configure the host
@@ -46,6 +54,8 @@ function onError(error) {
 
 // Sync file
 function syncFile() {
+  console.log('[JSBox]', window.activeTextEditor.document.fileName);
+
   // Check host is available
   const host = workspace.getConfiguration('jsBox').get('host');
 

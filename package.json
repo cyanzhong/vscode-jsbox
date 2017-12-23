@@ -52,6 +52,11 @@
           "type": "string",
           "default": "",
           "description": "Fill this with your connect host."
+        },
+        "jsBox.autoUpload": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to auto upload javascript file."
         }
       }
     },
@@ -59,6 +64,10 @@
       {
         "command": "jsBox.setHost",
         "title": "JSBox: Set Host"
+      },
+      {
+        "command": "jsBox.upload",
+        "title": "JSBox: Upload File"
       }
     ],
     "menus": {
