@@ -75,7 +75,8 @@ function syncFile() {
     formData: formData
   }, (error) => {
     if (error) {
-      onError(error);
+      return onError(error);
     }
+    vscode.window.showInformationMessage("[JSBox] Upload Successful!");
   });
 }
