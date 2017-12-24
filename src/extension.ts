@@ -41,11 +41,16 @@ function setHost() {
   }).then((value) => {
     if (value && value.length > 0) {
       config.update('host', value, true);
-      vscode.window.showInformationMessage(`[JSBox] Host: ${value}`);
+      showMessage(`Host: ${value}`);
     }
   });
 }
 
+// Show info message
+function showMessage(msg) {
+  console.log(msg);
+  vscode.window.showInformationMessage(`[JSBox] ${msg}`);
+}
 // Show error message
 function onError(error) {
   console.error(error);
@@ -77,6 +82,6 @@ function syncFile() {
     if (error) {
       return onError(error);
     }
-    vscode.window.showInformationMessage("[JSBox] Upload Successful!");
+    showMessage("Upload Successful!");
   });
 }
