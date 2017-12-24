@@ -1,47 +1,47 @@
 'use strict';
 
-import { commands, workspace, window, ExtensionContext } from 'vscode';
+import * as vscode from 'vscode';
 
 const watchers = {};
 
 // Extension activate
-export function activate(context: ExtensionContext) {
+export function activate(context: vscode.ExtensionContext) {
 
   // Observe command to setup host
-  context.subscriptions.push(commands.registerCommand('jsBox.setHost', setHost));
+  context.subscriptions.push(vscode.commands.registerCommand('jsBox.setHost', setHost));
 
   // Observe command to upload file
-  context.subscriptions.push(commands.registerCommand('jsBox.upload', syncFile));
+  context.subscriptions.push(vscode.commands.registerCommand('jsBox.upload', syncFile));
 
   // Observe file changes
   bindWatcher();
-  window.onDidChangeActiveTextEditor(bindWatcher);
+  vscode.window.onDidChangeActiveTextEditor(bindWatcher);
 }
 
 function bindWatcher() {
-  let path = window.activeTextEditor.document.fileName;
+  let path = vscode.window.activeTextEditor.document.fileName;
   if (path.search(/\.js$/i) > 0 && !watchers[path]) {
-    let watcher = workspace.createFileSystemWatcher(path);
+    let watcher = vscode.workspace.createFileSystemWatcher(path);
     watcher.onDidChange(checkAutoUpload);
     watchers[path] = watcher;
   }
 }
 
 function checkAutoUpload() {
-  if (workspace.getConfiguration('jsBox').get('autoUpload'))
+  if (vscode.workspace.getConfiguration('jsBox').get('autoUpload'))
     syncFile();
 }
 
 // Configure the host
 function setHost() {
-  const config = workspace.getConfiguration('jsBox');
-  window.showInputBox({
+  const config = vscode.workspace.getConfiguration('jsBox');
+  vscode.window.showInputBox({
     placeHolder: 'Example: 10.106.144.196',
     value: config.get('host')
   }).then((value) => {
     if (value && value.length > 0) {
       config.update('host', value, true);
-      window.showInformationMessage(`[JSBox] Host: ${value}`);
+      vscode.window.showInformationMessage(`[JSBox] Host: ${value}`);
     }
   });
 }
@@ -49,15 +49,15 @@ function setHost() {
 // Show error message
 function onError(error) {
   console.error(error);
-  window.showErrorMessage(`[JSBox] ${error}`);
+  vscode.window.showErrorMessage(`[JSBox] ${error}`);
 }
 
 // Sync file
 function syncFile() {
-  console.log('[JSBox]', window.activeTextEditor.document.fileName);
+  console.log('[JSBox]', vscode.window.activeTextEditor.document.fileName);
 
   // Check host is available
-  const host = workspace.getConfiguration('jsBox').get('host');
+  const host = vscode.workspace.getConfiguration('jsBox').get('host');
 
   if (!host) {
     onError('Host is unavailable');
@@ -68,7 +68,7 @@ function syncFile() {
         fs = require('fs');
 
   // Upload file to server
-  const path = window.activeTextEditor.document.fileName;
+  const path = vscode.window.activeTextEditor.document.fileName;
   let formData = {'files[]': fs.createReadStream(path)};
   request.post({
     url: `http://${host}/upload`,
