@@ -55,7 +55,7 @@
         },
         "jsBox.autoUpload": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "Whether to auto upload javascript file."
         }
       }
