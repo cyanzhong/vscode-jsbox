@@ -1,67 +1,87 @@
 'use strict';
 
-import {commands, workspace, window, ExtensionContext} from 'vscode';
+import * as vscode from 'vscode';
 
-const watchers = {}
+const watchers = {};
 
 // Extension activate
-export function activate(context: ExtensionContext) {
+export function activate(context: vscode.ExtensionContext) {
 
   // Observe command to setup host
-  context.subscriptions.push(commands.registerCommand('extension.setHost', setHost));
+  context.subscriptions.push(vscode.commands.registerCommand('jsBox.setHost', setHost));
+
+  // Observe command to upload file
+  context.subscriptions.push(vscode.commands.registerCommand('jsBox.upload', syncFile));
 
   // Observe file changes
-  bindWatcher()
-  window.onDidChangeActiveTextEditor(bindWatcher)
+  bindWatcher();
+  vscode.window.onDidChangeActiveTextEditor(bindWatcher);
 }
 
 function bindWatcher() {
-  let path = window.activeTextEditor.document.fileName;
+  let path = vscode.window.activeTextEditor.document.fileName;
   if (path.search(/\.js$/i) > 0 && !watchers[path]) {
-    let watcher = workspace.createFileSystemWatcher(path);
-    watcher.onDidChange(syncFile);
+    let watcher = vscode.workspace.createFileSystemWatcher(path);
+    watcher.onDidChange(checkAutoUpload);
     watchers[path] = watcher;
   }
 }
 
+function checkAutoUpload() {
+  if (vscode.workspace.getConfiguration('jsBox').get('autoUpload'))
+    syncFile();
+}
+
 // Configure the host
 function setHost() {
-  window.showInputBox({
+  const config = vscode.workspace.getConfiguration('jsBox');
+  vscode.window.showInputBox({
     placeHolder: 'Example: 10.106.144.196',
-    value: workspace.getConfiguration().host
+    value: config.get('host')
   }).then((value) => {
     if (value && value.length > 0) {
-      workspace.getConfiguration().update('host', value, true);
-      window.showInformationMessage('Host: ' + value);
+      config.update('host', value, true);
+      showMessage(`Host: ${value}`);
     }
   });
 }
 
+// Show info message
+function showMessage(msg) {
+  console.log(msg);
+  vscode.window.showInformationMessage(`[JSBox] ${msg}`);
+}
 // Show error message
 function onError(error) {
   console.error(error);
-  window.showErrorMessage(error);
+  vscode.window.showErrorMessage(`[JSBox] ${error}`);
 }
 
 // Sync file
 function syncFile() {
+  console.log('[JSBox]', vscode.window.activeTextEditor.document.fileName);
 
   // Check host is available
-  let host = workspace.getConfiguration().host;
-  
-  if (host.length === 0) {
+  const host = vscode.workspace.getConfiguration('jsBox').get('host');
+
+  if (!host) {
     onError('Host is unavailable');
     return;
   }
-  
+
+  const request = require('request'),
+        fs = require('fs');
+
   // Upload file to server
-  let path = window.activeTextEditor.document.fileName;
-  var request = require('request');
-  var fs = require('fs');
-  var formData = {'files[]': fs.createReadStream(path)};
-  request.post({url: 'http://' + host + '/upload', formData: formData}, (error) => {
+  const path = vscode.window.activeTextEditor.document.fileName;
+  let formData = {'files[]': fs.createReadStream(path)};
+  request.post({
+    url: `http://${host}/upload`,
+    formData: formData
+  }, (error) => {
     if (error) {
-      onError(error);
+      return onError(error);
     }
+    showMessage("Upload Successful!");
   });
 }

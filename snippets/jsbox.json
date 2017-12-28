@@ -370,7 +370,7 @@
     "prefix": "$cache.clearAsync",
     "body": [
       "\\$cache.clearAsync({",
-      "\thandler: function() {", 
+      "\thandler: function() {",
       "\t\t$1",
       "\t}",
       "})"
@@ -382,7 +382,7 @@
     "body": [
       "\\$thread.background({",
       "\tdelay: 0,",
-      "\thandler: function() {", 
+      "\thandler: function() {",
       "\t\t$1",
       "\t}",
       "})"
@@ -394,7 +394,7 @@
     "body": [
       "\\$thread.main({",
       "\tdelay: 0,",
-      "\thandler: function() {", 
+      "\thandler: function() {",
       "\t\t$1",
       "\t}",
       "})"
@@ -404,7 +404,7 @@
   "$delay(number, function)": {
     "prefix": "$delay",
     "body": [
-      "\\$delay(0.3, function() {", 
+      "\\$delay(0.3, function() {",
       "\t$1",
       "})"
     ],
