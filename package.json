@@ -4,7 +4,7 @@
   "description": "JSBox Development Utilities on VSCode",
   "author": "Cyan <log.e@qq.com>",
   "icon": "asset/icon.png",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "Ying",
   "engines": {
     "vscode": "^1.17.0"
@@ -56,24 +56,27 @@
         "jsBox.autoUpload": {
           "type": "boolean",
           "default": true,
-          "description": "Whether to auto upload javascript file."
+          "description": "Whether to sync source file automatically."
         }
       }
     },
     "commands": [
       {
         "command": "jsBox.setHost",
-        "title": "JSBox: Set Host"
+        "title": "[JSBox] Set Host"
       },
       {
-        "command": "jsBox.upload",
-        "title": "JSBox: Upload File"
+        "command": "jsBox.syncFile",
+        "title": "[JSBox] Sync File"
       }
     ],
     "menus": {
       "editor/title": [
         {
           "command": "jsBox.setHost"
+        },
+        {
+          "command": "jsBox.syncFile"
         }
       ]
     },

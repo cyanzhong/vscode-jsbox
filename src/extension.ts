@@ -10,8 +10,8 @@ export function activate(context: vscode.ExtensionContext) {
   // Observe command to setup host
   context.subscriptions.push(vscode.commands.registerCommand('jsBox.setHost', setHost));
 
-  // Observe command to upload file
-  context.subscriptions.push(vscode.commands.registerCommand('jsBox.upload', syncFile));
+  // Observe command to sync file
+  context.subscriptions.push(vscode.commands.registerCommand('jsBox.syncFile', syncFile));
 
   // Observe file changes
   bindWatcher();
@@ -22,14 +22,9 @@ function bindWatcher() {
   let path = vscode.window.activeTextEditor.document.fileName;
   if (path.search(/\.js$/i) > 0 && !watchers[path]) {
     let watcher = vscode.workspace.createFileSystemWatcher(path);
-    watcher.onDidChange(checkAutoUpload);
+    watcher.onDidChange(syncFileIfNeeded);
     watchers[path] = watcher;
   }
-}
-
-function checkAutoUpload() {
-  if (vscode.workspace.getConfiguration('jsBox').get('autoUpload'))
-    syncFile();
 }
 
 // Configure the host
@@ -51,10 +46,18 @@ function showMessage(msg) {
   console.log(msg);
   vscode.window.showInformationMessage(`[JSBox] ${msg}`);
 }
+
 // Show error message
-function onError(error) {
+function showError(error) {
   console.error(error);
   vscode.window.showErrorMessage(`[JSBox] ${error}`);
+}
+
+// Sync file only if needed
+function syncFileIfNeeded() {
+  if (vscode.workspace.getConfiguration('jsBox').get('autoUpload')) {
+    syncFile();
+  }
 }
 
 // Sync file
@@ -65,23 +68,21 @@ function syncFile() {
   const host = vscode.workspace.getConfiguration('jsBox').get('host');
 
   if (!host) {
-    onError('Host is unavailable');
+    showError('Host is unavailable');
     return;
   }
 
-  const request = require('request'),
-        fs = require('fs');
-
   // Upload file to server
+  const request = require('request');
+  const fs = require('fs');
   const path = vscode.window.activeTextEditor.document.fileName;
-  let formData = {'files[]': fs.createReadStream(path)};
+
   request.post({
     url: `http://${host}/upload`,
-    formData: formData
+    formData: {'files[]': fs.createReadStream(path)}
   }, (error) => {
     if (error) {
-      return onError(error);
+      showError(error);
     }
-    showMessage("Upload Successful!");
   });
 }

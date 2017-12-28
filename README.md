@@ -12,14 +12,16 @@ Note: Make sure your iPhone and computer are on the same Wi-Fi.
 
 On iPhone, turn on debug mode of JSBox and restart the app, you can see the `Host` in the settings view.
 
-On VSCode, you need to set `host`:
+On VSCode, you need to set `jsBox.host`:
 
-* `JSBox configuration` -> `host`: web server host
+* `JSBox configuration` -> `jsBox.host`: web server host
 
 There are also two super easy ways to setup host:
 
 - Click menu button at the top-right corner of your editor panel, there's a `Set Host` item
 - Trigger VSCode command with `command+shift+p`, type sethost then execute the command
+
+If you don't want to sync source file automatically, you can set `jsBox.autoUpload` to `false`.
 
 ## Contacts
 
