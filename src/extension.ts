@@ -50,7 +50,7 @@ function showMessage(msg) {
 // Show error message
 function showError(error) {
   console.error(error);
-  vscode.window.showErrorMessage(`[JSBox] ${error}`);
+  // vscode.window.showErrorMessage(`[JSBox] ${error}`);
 }
 
 // Sync file only if needed
@@ -62,7 +62,7 @@ function syncFileIfNeeded() {
 
 // Sync file
 function syncFile() {
-  console.log('[JSBox]', vscode.window.activeTextEditor.document.fileName);
+  // console.log('[JSBox]', vscode.window.activeTextEditor.document.fileName);
 
   // Check host is available
   const host = vscode.workspace.getConfiguration('jsBox').get('host');

@@ -4,7 +4,7 @@
   "description": "JSBox Development Utilities on VSCode",
   "author": "Cyan <log.e@qq.com>",
   "icon": "asset/icon.png",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "Ying",
   "engines": {
     "vscode": "^1.17.0"
