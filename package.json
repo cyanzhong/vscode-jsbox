@@ -41,7 +41,8 @@
     "@types/mocha": "^2.2.42"
   },
   "dependencies": {
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "zip-folder": "1.0.0"
   },
   "contributes": {
     "configuration": {

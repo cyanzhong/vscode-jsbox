@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(vscode.commands.registerCommand('jsBox.setHost', setHost));
 
   // Observe command to sync file
-  context.subscriptions.push(vscode.commands.registerCommand('jsBox.syncFile', syncFile));
+  context.subscriptions.push(vscode.commands.registerCommand('jsBox.syncFile', syncWorkspace));
 
   // Observe command to download file
   context.subscriptions.push(vscode.commands.registerCommand('jsBox.downloadFile', downloadFile));
@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 function bindWatcher() {
   let path = vscode.window.activeTextEditor.document.fileName;
-  if (path.search(/\.js$/i) > 0 && !watchers[path]) {
+  if (path.search(/\.js$|.json$/i) > 0 && !watchers[path]) {
     let watcher = vscode.workspace.createFileSystemWatcher(path);
     watcher.onDidChange(syncFileIfNeeded);
     watchers[path] = watcher;
@@ -53,18 +53,21 @@ function showMessage(msg) {
 // Show error message
 function showError(error) {
   console.error(error);
-  // vscode.window.showErrorMessage(`[JSBox] ${error}`);
+  if (vscode.debug) {
+    vscode.window.showErrorMessage(`[JSBox] ${error}`);
+  }
 }
 
 // Sync file only if needed
 function syncFileIfNeeded() {
   if (vscode.workspace.getConfiguration('jsBox').get('autoUpload')) {
-    syncFile();
+    syncWorkspace();
   }
 }
 
-// Sync file
-function syncFile() {
+// Sync workspace (file or folder)
+function syncWorkspace() {
+  
   // console.log('[JSBox]', vscode.window.activeTextEditor.document.fileName);
 
   // Check host is available
@@ -78,16 +81,50 @@ function syncFile() {
   // Upload file to server
   const request = require('request');
   const fs = require('fs');
-  const path = vscode.window.activeTextEditor.document.fileName;
 
-  request.post({
-    url: `http://${host}/upload`,
-    formData: {'files[]': fs.createReadStream(path)}
-  }, (error) => {
-    if (error) {
-      showError(error);
+  function syncFile(path) {
+    request.post({
+      url: `http://${host}/upload`,
+      formData: {'files[]': fs.createReadStream(path)}
+    }, (error) => {
+      if (error) {
+        showError(error);
+      }
+    });
+  }
+
+  // Find the parent folder
+  function parent(path) {
+    return path.substring(0, path.lastIndexOf('/'));
+  }
+
+  var path = vscode.window.activeTextEditor.document.fileName;
+  var directory = parent(path);
+
+  while (directory.length > 0) {
+    let files = fs.readdirSync(directory);
+    if (files.includes('config.json') && files.includes('main.js')) {
+      break;
     }
-  });
+    directory = parent(directory);
+  }
+
+  if (directory.length > 0) {
+    if (!fs.existsSync(directory + '/.output')) {
+      fs.mkdirSync(directory + '/.output');
+    }
+    var name = directory.split('/').pop()
+    var target = `${directory}/.output/${name}.box`;
+    require('zip-folder')(directory, target, error => {
+      if (error) {
+        showError(error);
+      } else {
+        syncFile(target);
+      }
+    });
+  } else {
+    syncFile(path);
+  }
 }
 
 // Download File
