@@ -501,7 +501,7 @@
           }
         },
         {
-          "match": "(\\$console)(?:\\s*\\.\\s*(info|warn|error|clear))?\\b(?!\\$)",
+          "match": "(\\$console)(?:\\s*\\.\\s*(log|info|warn|error|clear))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
