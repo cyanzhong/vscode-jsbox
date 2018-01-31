@@ -68,6 +68,10 @@
       {
         "command": "jsBox.syncFile",
         "title": "JSBox: Sync File"
+      },
+      {
+        "command": "jsBox.downloadFile",
+        "title": "JSBox: Download File"
       }
     ],
     "menus": {
@@ -77,6 +81,9 @@
         },
         {
           "command": "jsBox.syncFile"
+        },
+        {
+          "command": "jsBox.downloadFile"
         }
       ]
     },
