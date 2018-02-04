@@ -13,6 +13,9 @@ export function activate(context: vscode.ExtensionContext) {
   // Observe command to sync file
   context.subscriptions.push(vscode.commands.registerCommand('jsBox.syncFile', syncFile));
 
+  // Observe command to download file
+  context.subscriptions.push(vscode.commands.registerCommand('jsBox.downloadFile', downloadFile));
+
   // Observe file changes
   bindWatcher();
   vscode.window.onDidChangeActiveTextEditor(bindWatcher);
@@ -85,4 +88,57 @@ function syncFile() {
       showError(error);
     }
   });
+}
+
+// Download File
+function downloadFile() {
+  // Check host is available
+  const host = vscode.workspace.getConfiguration('jsBox').get('host');
+
+  if (!host) {
+    showError('Host is unavailable');
+    return;
+  }
+
+  const request = require('request');
+  const fs = require('fs');
+
+  // Get file list from server
+  request(`http://${host}/list?path=/`,
+    (error, response, body) => {
+      if (error) return showError(error);
+
+      const data = JSON.parse(body);
+      const names = data.map(i => i.name);
+      vscode.window.showQuickPick(names)
+        .then(fileName => {
+          const filePath = data.find(i => i.name === fileName).path;
+
+          const option = {
+            defaultUri: vscode.Uri.file(`${vscode.workspace.rootPath}/${fileName}`),
+            filters: {
+              'Javascript': ['js']
+            }
+          };
+          vscode.window.showSaveDialog(option)
+            .then(path => {
+              if (!path.fsPath) return;
+
+              request(`http://${host}/download?path=${filePath}`,
+                (d_error, d_response, d_body) => {
+                  if (d_error) return showError(d_error);
+                  if (d_response.statusCode === 404) return showError(`File "${fileName}" Not Found`);
+
+                  fs.writeFile(path.fsPath, d_body, (fs_error) => {
+                    if (fs_error) return showError(fs_error);
+                    showMessage('File Saved');
+                  });
+                }
+              );
+            }
+          );
+        }
+      );
+    }
+  );
 }
