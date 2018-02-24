@@ -103,13 +103,15 @@ function syncWorkspace() {
 
   while (directory.length > 0) {
     let files = fs.readdirSync(directory);
-    if (files.includes('config.json') && files.includes('main.js')) {
+    const identifiers = ['assets', 'scripts', 'strings', 'config.json', 'main.js'];
+    if (identifiers.reduce((value, identifier) => value && files.includes(identifier), true)) {
       break;
     }
     directory = parent(directory);
   }
 
   if (directory.length > 0) {
+    // Sync as package
     if (!fs.existsSync(directory + '/.output')) {
       fs.mkdirSync(directory + '/.output');
     }
@@ -123,6 +125,7 @@ function syncWorkspace() {
       }
     });
   } else {
+    // Sync as script
     syncFile(path);
   }
 }
