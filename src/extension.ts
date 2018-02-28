@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 function bindWatcher() {
   let path = vscode.window.activeTextEditor.document.fileName;
-  if (path.search(/\.js$|.json$/i) > 0 && !watchers[path]) {
+  if (path.search(/\.js$|\.json$/i) > 0 && !watchers[path]) {
     let watcher = vscode.workspace.createFileSystemWatcher(path);
     watcher.onDidChange(syncFileIfNeeded);
     watchers[path] = watcher;
@@ -65,6 +65,11 @@ function syncFileIfNeeded() {
   }
 }
 
+// Find the parent folder
+function parentFolder(path) {
+  return path.substring(0, path.lastIndexOf('/'));
+}
+
 // Sync workspace (file or folder)
 function syncWorkspace() {
   
@@ -93,13 +98,8 @@ function syncWorkspace() {
     });
   }
 
-  // Find the parent folder
-  function parent(path) {
-    return path.substring(0, path.lastIndexOf('/'));
-  }
-
   var path = vscode.window.activeTextEditor.document.fileName;
-  var directory = parent(path);
+  var directory = parentFolder(path);
 
   while (directory.length > 0) {
     let files = fs.readdirSync(directory);
@@ -107,7 +107,7 @@ function syncWorkspace() {
     if (identifiers.reduce((value, identifier) => value && files.includes(identifier), true)) {
       break;
     }
-    directory = parent(directory);
+    directory = parentFolder(directory);
   }
 
   if (directory.length > 0) {
@@ -144,40 +144,46 @@ function downloadFile() {
   const fs = require('fs');
 
   // Get file list from server
-  request(`http://${host}/list?path=/`,
-    (error, response, body) => {
+  request(`http://${host}/list?path=/`, (error, response, body) => {
       
-      if (error) return showError(error);
-
-      const data = JSON.parse(body);
-      const names = data.map(i => i.name);
-
-      vscode.window.showQuickPick(names)
-        .then(fileName => {
-          const filePath = data.find(i => i.name === fileName).path;
-          const option = {
-            defaultUri: vscode.Uri.file(`${vscode.workspace.rootPath}/${fileName}`)
-          };
-
-          vscode.window.showSaveDialog(option)
-            .then(path => {
-              if (!path.fsPath) return;
-
-              request(`http://${host}/download?path=${encodeURI(filePath)}`,
-                (d_error, d_response, d_body) => {
-                  if (d_error) return showError(d_error);
-                  if (d_response.statusCode === 404) return showError(`File "${fileName}" Not Found`);
-
-                  fs.writeFile(path.fsPath, d_body, (fs_error) => {
-                    if (fs_error) return showError(fs_error);
-                    showMessage('File Saved');
-                  });
-                }
-              );
-            }
-          );
-        }
-      );
+    if (error) {
+      return showError(error);
     }
-  );
+
+    const data = JSON.parse(body);
+    const names = data.map(i => i.name);
+
+    // Show file list
+    vscode.window.showQuickPick(names).then(fileName => {
+
+      const filePath = data.find(i => i.name === fileName).path;
+      const option = {
+        defaultUri: vscode.Uri.file(`${vscode.workspace.rootPath}/${fileName}`)
+      };
+      
+      // Show file dialog
+      vscode.window.showSaveDialog(option).then(path => {
+
+        if (path.fsPath == undefined || path.fsPath.length == 0) {
+          return;
+        }
+
+        let dest = `${path.fsPath}${filePath.search(/\.js$/i) > 0 ? '' : '.zip'}`;
+        let url = `http://${host}/download?path=${encodeURI(filePath)}`;
+        let stream = fs.createWriteStream(dest);
+
+        // Download file
+        require('http').get(url, function(response) {
+          response.pipe(stream);
+          stream.on('finish', function() {
+            stream.close();
+            require('open')(parentFolder(dest));
+          });
+        }).on('error', function(error) {
+          fs.unlink(dest);
+          showError(error);
+        });
+      });
+    });
+  });
 }
