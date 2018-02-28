@@ -164,7 +164,7 @@ function downloadFile() {
             .then(path => {
               if (!path.fsPath) return;
 
-              request(`http://${host}/download?path=${filePath}`,
+              request(`http://${host}/download?path=${encodeURI(filePath)}`,
                 (d_error, d_response, d_body) => {
                   if (d_error) return showError(d_error);
                   if (d_response.statusCode === 404) return showError(`File "${fileName}" Not Found`);
