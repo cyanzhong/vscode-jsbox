@@ -146,20 +146,19 @@ function downloadFile() {
   // Get file list from server
   request(`http://${host}/list?path=/`,
     (error, response, body) => {
+      
       if (error) return showError(error);
 
       const data = JSON.parse(body);
       const names = data.map(i => i.name);
+
       vscode.window.showQuickPick(names)
         .then(fileName => {
           const filePath = data.find(i => i.name === fileName).path;
-
           const option = {
-            defaultUri: vscode.Uri.file(`${vscode.workspace.rootPath}/${fileName}`),
-            filters: {
-              'Javascript': ['js']
-            }
+            defaultUri: vscode.Uri.file(`${vscode.workspace.rootPath}/${fileName}`)
           };
+
           vscode.window.showSaveDialog(option)
             .then(path => {
               if (!path.fsPath) return;
