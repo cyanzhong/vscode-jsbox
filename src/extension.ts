@@ -1,6 +1,7 @@
 'use strict';
 
 import * as vscode from 'vscode';
+import * as path from 'path';
 
 const watchers = {};
 
@@ -66,8 +67,8 @@ function syncFileIfNeeded() {
 }
 
 // Find the parent folder
-function parentFolder(path) {
-  return path.substring(0, path.lastIndexOf('/'));
+function parentFolder(filePath) {
+  return path.dirname(filePath)
 }
 
 // Sync workspace (file or folder)
@@ -98,8 +99,8 @@ function syncWorkspace() {
     });
   }
 
-  var path = vscode.window.activeTextEditor.document.fileName;
-  var directory = parentFolder(path);
+  var filePath = path.resolve(vscode.window.activeTextEditor.document.fileName);
+  var directory = parentFolder(filePath);
 
   while (directory.length > 0) {
     let files = fs.readdirSync(directory);
@@ -112,11 +113,12 @@ function syncWorkspace() {
 
   if (directory.length > 0) {
     // Sync as package
-    if (!fs.existsSync(directory + '/.output')) {
-      fs.mkdirSync(directory + '/.output');
+
+    if (!fs.existsSync(path.join(directory, '.output'))) {
+      fs.mkdirSync(path.join(directory, '.output'));
     }
-    var name = directory.split('/').pop()
-    var target = `${directory}/.output/${name}.box`;
+    var name = path.basename(directory)
+    var target = path.resolve(directory, '.output', `${name}.box`);
     require('zip-folder')(directory, target, error => {
       if (error) {
         showError(error);
@@ -126,7 +128,7 @@ function syncWorkspace() {
     });
   } else {
     // Sync as script
-    syncFile(path);
+    syncFile(filePath);
   }
 }
 
