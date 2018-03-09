@@ -65,7 +65,7 @@
           }
         },
         {
-          "match": "(\\$http)(?:\\s*\\.\\s*(setNetworkActivityIndicatorVisible|sync|request|get|post|download|upload|shorten|lengthen))?(?:\\s*\\.\\s*(status))?\\b(?!\\$)",
+          "match": "(\\$http)(?:\\s*\\.\\s*(setNetworkActivityIndicatorVisible|sync|request|get|post|download|upload|shorten|lengthen|startServer|stopServer))?(?:\\s*\\.\\s*(status))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
