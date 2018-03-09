@@ -101,8 +101,9 @@ function syncWorkspace() {
 
   var filePath = path.resolve(vscode.window.activeTextEditor.document.fileName);
   var directory = parentFolder(filePath);
+  var directoryRoot = path.parse(directory).root
 
-  while (directory.length > 0) {
+  while (directory != directoryRoot) {
     let files = fs.readdirSync(directory);
     const identifiers = ['assets', 'scripts', 'strings', 'config.json', 'main.js'];
     if (identifiers.reduce((value, identifier) => value && files.includes(identifier), true)) {
@@ -111,7 +112,7 @@ function syncWorkspace() {
     directory = parentFolder(directory);
   }
 
-  if (directory.length > 0) {
+  if (directory != directoryRoot) {
     // Sync as package
 
     if (!fs.existsSync(path.join(directory, '.output'))) {
