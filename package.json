@@ -24,7 +24,8 @@
   ],
   "activationEvents": [
     "onDebug",
-    "onLanguage:javascript"
+    "onLanguage:javascript",
+    "onLanguage:json"
   ],
   "main": "./out/extension",
   "scripts": {
