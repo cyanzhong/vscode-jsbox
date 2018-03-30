@@ -41,9 +41,10 @@
     "@types/mocha": "^2.2.42"
   },
   "dependencies": {
+    "open": "0.0.5",
     "request": "^2.79.0",
-    "zip-folder": "1.0.0",
-    "open": "0.0.5"
+    "unzip": "^0.1.11",
+    "zip-folder": "1.0.0"
   },
   "contributes": {
     "configuration": {

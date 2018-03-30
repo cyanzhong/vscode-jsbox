@@ -2,6 +2,7 @@
 
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as unzip from 'unzip';
 
 const watchers = {};
 
@@ -165,24 +166,31 @@ function downloadFile() {
       };
       
       // Show file dialog
-      vscode.window.showSaveDialog(option).then(path => {
+      vscode.window.showSaveDialog(option).then(selectedPath => {
 
-        if (path.fsPath == undefined || path.fsPath.length == 0) {
+        if (selectedPath.fsPath == undefined || selectedPath.fsPath.length == 0) {
           return;
         }
 
-        let dest = `${path.fsPath}${filePath.search(/\.js$/i) > 0 ? '' : '.zip'}`;
+        let singleFile = filePath.search(/\.js$/i) > 0;
+        let dest = selectedPath.fsPath;
         let url = `http://${host}/download?path=${encodeURI(filePath)}`;
-        let stream = fs.createWriteStream(dest);
 
         // Download file
-        require('http').get(url, function(response) {
-          response.pipe(stream);
-          stream.on('finish', function() {
-            stream.close();
-            require('open')(parentFolder(dest));
-          });
-        }).on('error', function(error) {
+        require('http').get(url, function (response) {
+          if (singleFile) {
+            let stream = fs.createWriteStream(dest);
+            response.pipe(stream);
+            stream.on('finish', function () {
+              stream.close();
+              require('open')(parentFolder(dest));
+            });
+          } else {
+            response.pipe(unzip.Extract({ path: dest })).on('close', () => {
+              require('open')(parentFolder(dest));
+            });
+          }
+        }).on('error', function (error) {
           fs.unlink(dest);
           showError(error);
         });
