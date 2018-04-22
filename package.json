@@ -4,7 +4,7 @@
   "description": "JSBox Development Utilities on VSCode",
   "author": "Cyan <log.e@qq.com>",
   "icon": "asset/icon.png",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "publisher": "Ying",
   "engines": {
     "vscode": "^1.17.0"
@@ -90,6 +90,20 @@
         }
       ]
     },
+    "keybindings": [
+      {
+        "command": "jsBox.syncFile",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "jsBox.downloadFile",
+        "key": "ctrl+shift+d",
+        "mac": "cmd+shift+d",
+        "when": "editorTextFocus"
+      }
+    ],
     "grammars": [
       {
         "scopeName": "source.jsbox",
