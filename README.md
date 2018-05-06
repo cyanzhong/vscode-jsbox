@@ -23,6 +23,10 @@ There are also two super easy ways to setup host:
 
 If you don't want to sync source file automatically, you can set `jsBox.autoUpload` to `false`.
 
+## Don't like VSCode?
+
+Try [jsbox-cli](https://github.com/Dreamacro/jsbox-cli)! This is a cli tool which is made by [Dreamacro](https://github.com/Dreamacro).
+
 ## Contacts
 
 - [GitHub](https://github.com/cyanzhong/vscode-jsbox)
