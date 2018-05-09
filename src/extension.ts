@@ -155,11 +155,14 @@ function downloadFile() {
 
     const data = JSON.parse(body);
     const names = data.map(i => i.name);
+    names.unshift('/');
 
     // Show file list
     vscode.window.showQuickPick(names).then(fileName => {
 
-      const filePath = data.find(i => i.name === fileName).path;
+      const filePath = fileName === '/' ? '/' : data.find(i => i.name === fileName).path;
+      fileName = fileName === '/' ? 'scripts' : fileName;
+
       const option = {
         defaultUri: vscode.Uri.file(`${vscode.workspace.rootPath}/${fileName}`)
       };
@@ -167,7 +170,7 @@ function downloadFile() {
       // Show file dialog
       vscode.window.showSaveDialog(option).then(path => {
 
-        if (path.fsPath == undefined || path.fsPath.length == 0) {
+        if (path == undefined || path.fsPath == undefined || path.fsPath.length == 0) {
           return;
         }
 
