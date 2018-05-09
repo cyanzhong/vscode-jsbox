@@ -155,7 +155,6 @@ function downloadFile() {
 
     const data = JSON.parse(body);
     const names = data.map(i => i.name);
-    names.unshift('/');
 
     // Show file list
     vscode.window.showQuickPick(names).then(fileName => {
