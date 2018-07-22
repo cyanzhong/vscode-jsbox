@@ -6,6 +6,34 @@
     ],
     "description": "Get device information"
   },
+  "$device.isIphoneX": {
+    "prefix": "$device.isIphoneX",
+    "body": [
+      "\\$device.isIphoneX"
+    ],
+    "description": "Check if device is iPhone X"
+  },
+  "$device.isIphonePlus": {
+    "prefix": "$device.isIphonePlus",
+    "body": [
+      "\\$device.isIphonePlus"
+    ],
+    "description": "Check if device is 3x"
+  },
+  "$device.isIpad": {
+    "prefix": "$device.isIpad",
+    "body": [
+      "\\$device.isIpad"
+    ],
+    "description": "Check if device is iPad"
+  },
+  "$device.isIpadPro": {
+    "prefix": "$device.isIpadPro",
+    "body": [
+      "\\$device.isIpadPro"
+    ],
+    "description": "Check if device is iPad Pro"
+  },
   "$device.ssid": {
     "prefix": "$device.ssid",
     "body": [
@@ -27,10 +55,17 @@
     ],
     "description": "Get device memory/disk states"
   },
+  "$device.wlanAddress": {
+    "prefix": "$device.wlanAddress",
+    "body": [
+      "\\$device.wlanAddress"
+    ],
+    "description": "Get device WLAN address"
+  },
   "$device.taptic(number)": {
     "prefix": "$device.taptic",
     "body": [
-      "\\$device.taptic(${1|0,1,2|})"
+      "\\$device.taptic(${1|0,1,2|});"
     ],
     "description": "Trigger a taptic feedback"
   },
@@ -51,9 +86,16 @@
   "$app.tips(string)": {
     "prefix": "$app.tips",
     "body": [
-      "\\$app.tips(\"${1:tips}\")"
+      "\\$app.tips(\"${1:tips}\");"
     ],
     "description": "Show one-time tips"
+  },
+  "$app.widgetIndex": {
+    "prefix": "$app.widgetIndex",
+    "body": [
+      "\\$app.widgetIndex"
+    ],
+    "description": "Get current widget index"
   },
   "$app.info": {
     "prefix": "$app.info",
@@ -65,14 +107,14 @@
   "$app.idleTimerDisabled": {
     "prefix": "$app.idleTimerDisabled",
     "body": [
-      "\\$app.idleTimerDisabled = ${1|true,false|}"
+      "\\$app.idleTimerDisabled = ${1|true,false|};"
     ],
     "description": "Change idleTimerDisabled"
   },
   "$app.close(delay)": {
     "prefix": "$app.close",
     "body": [
-      "\\$app.close()"
+      "\\$app.close();"
     ],
     "description": "Close the addin after a delay(optional)"
   },
@@ -86,21 +128,28 @@
   "$app.autoKeyboardEnabled": {
     "prefix": "$app.autoKeyboardEnabled",
     "body": [
-      "\\$app.autoKeyboardEnabled = ${1|true,false|}"
+      "\\$app.autoKeyboardEnabled = ${1|true,false|};"
     ],
     "description": "Change autoKeyboardEnabled"
   },
   "$app.keyboardToolbarEnabled": {
     "prefix": "$app.keyboardToolbarEnabled",
     "body": [
-      "\\$app.keyboardToolbarEnabled = ${1|true,false|}"
+      "\\$app.keyboardToolbarEnabled = ${1|true,false|};"
     ],
     "description": "Change keyboardToolbarEnabled"
+  },
+  "$app.rotateDisabled": {
+    "prefix": "$app.rotateDisabled",
+    "body": [
+      "\\$app.rotateDisabled = ${1|true,false|};"
+    ],
+    "description": "Change rotateDisabled"
   },
   "$app.openURL(string)": {
     "prefix": "$app.openURL",
     "body": [
-      "\\$app.openURL(\"${1:url}\")"
+      "\\$app.openURL(\"${1:url}\");"
     ],
     "description": "Open URL"
   },
@@ -110,7 +159,7 @@
       "\\$app.openBrowser({",
       "\ttype: ${1|10000,10001,10002,10003,10004,10005,10006,10007,10008,10009|},",
       "\turl: \"$2\"",
-      "})"
+      "});"
     ],
     "description": "Open URL with browser"
   },
@@ -124,9 +173,29 @@
       "\texit: function() {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Observe notifications from addin"
+  },
+  "$app.notify(object)": {
+    "prefix": "$app.notify",
+    "body": [
+      "\\$app.notify({",
+      "\tname: \"$1\",",
+      "\tobject: $2",
+      "});"
+    ],
+    "description": "Post notification"
+  },
+  "$app.setupWidget(object)": {
+    "prefix": "$app.setupWidget",
+    "body": [
+      "\\$app.setupWidget({",
+      "\tname: \"$1\",",
+      "\tindex: ${2|0,1,2|}",
+      "});"
+    ],
+    "description": "Setup widget with name and index"
   },
   "$app.strings": {
     "prefix": "$app.strings",
@@ -138,7 +207,7 @@
       "\t\"zh-Hans\": {",
       "\t\t$2",
       "\t}",
-      "}"
+      "};"
     ],
     "description": "Observe notifications from addin"
   },
@@ -159,30 +228,55 @@
   "$system.call(number)": {
     "prefix": "$system.call",
     "body": [
-      "\\$system.call(${1:number})"
+      "\\$system.call(${1:number});"
     ],
     "description": "Make a phone call"
   },
   "$system.sms(number)": {
     "prefix": "$system.sms",
     "body": [
-      "\\$system.sms(${1:number})"
+      "\\$system.sms(${1:number});"
     ],
     "description": "Send a text message"
   },
   "$system.mailto(email)": {
     "prefix": "$system.mailto",
     "body": [
-      "\\$system.mailto(\"${1:address}\")"
+      "\\$system.mailto(\"${1:address}\");"
     ],
     "description": "Send an email"
   },
   "$system.facetime(number)": {
     "prefix": "$system.facetime",
     "body": [
-      "\\$system.facetime(${1:number})"
+      "\\$system.facetime(${1:number});"
     ],
     "description": "Start a FaceTime session"
+  },
+  "$system.home()": {
+    "prefix": "$system.home",
+    "body": [
+      "\\$system.home();"
+    ],
+    "description": "Back to home screen"
+  },
+  "$system.makeIcon(object)": {
+    "prefix": "$system.makeIcon",
+    "body": [
+      "\\$system.makeIcon({",
+      "\ttitle: \"$1\",",
+      "\turl: \"$2\",",
+      "\ticon: $3",
+      "});"
+    ],
+    "description": "Make a home screen icon"
+  },
+  "$http.status": {
+    "prefix": "$http.status",
+    "body": [
+      "\\$http.status"
+    ],
+    "description": "Get current HTTP status"
   },
   "$http.request(object)": {
     "prefix": "$http.request",
@@ -197,9 +291,9 @@
       "\t\t",
       "\t},",
       "\thandler: function(resp) {",
-      "\t\tvar data = resp.data",
+      "\t\tvar data = resp.data;",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Send a HTTP request"
   },
@@ -209,9 +303,9 @@
       "\\$http.get({",
       "\turl: \"$1\",",
       "\thandler: function(resp) {",
-      "\t\tvar data = resp.data",
+      "\t\tvar data = resp.data;",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Send a GET request"
   },
@@ -227,9 +321,9 @@
       "\t\t",
       "\t},",
       "\thandler: function(resp) {",
-      "\t\tvar data = resp.data",
+      "\t\tvar data = resp.data;",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Send a POST request"
   },
@@ -248,9 +342,9 @@
       "\t\tvar percentage = bytesWritten * 1.0 / totalBytes",
       "\t},",
       "\thandler: function(resp) {",
-      "\t\tvar file = resp.data",
+      "\t\tvar file = resp.data;",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Download a file through HTTP"
   },
@@ -273,7 +367,7 @@
       "\thandler: function(resp) {",
       "\t\t",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Upload a file through HTTP"
   },
@@ -285,7 +379,7 @@
       "\thandler: function(url) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Shorten a URL"
   },
@@ -297,14 +391,56 @@
       "\thandler: function(url) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Expand a URL"
+  },
+  "$http.startServer(object)": {
+    "prefix": "$http.startServer",
+    "body": [
+      "\\$http.startServer({",
+      "\tport: $1,",
+      "\tpath: \"$2\"",
+      "\thandler: function(result) {",
+      "\t\tvar url = result.url;",
+      "\t\t$3",
+      "\t}",
+      "});"
+    ],
+    "description": "Start a http server"
+  },
+  "$http.stopServer()": {
+    "prefix": "$http.stopServer",
+    "body": [
+      "\\$http.stopServer();"
+    ],
+    "description": "Stop created http server"
+  },
+  "$http.suspend(identifier)": {
+    "prefix": "$http.suspend",
+    "body": [
+      "\\$http.suspend(\"${1:identifier}\");"
+    ],
+    "description": "Suspend a http request"
+  },
+  "$http.resume(identifier)": {
+    "prefix": "$http.resume",
+    "body": [
+      "\\$http.resume(\"${1:identifier}\");"
+    ],
+    "description": "Resume a http request"
+  },
+  "$http.cancel(identifier)": {
+    "prefix": "$http.cancel",
+    "body": [
+      "\\$http.cancel(\"${1:identifier}\");"
+    ],
+    "description": "Cancel a http request"
   },
   "$cache.set(string, object)": {
     "prefix": "$cache.set",
     "body": [
-      "\\$cache.set(\"${1:key}\", ${2:value})"
+      "\\$cache.set(\"${1:key}\", ${2:value});"
     ],
     "description": "Cache object"
   },
@@ -317,14 +453,14 @@
       "\thandler: function(object) {",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Cache object (async)"
   },
   "$cache.get(string)": {
     "prefix": "$cache.get",
     "body": [
-      "\\$cache.get(\"${1:key}\")"
+      "\\$cache.get(\"${1:key}\");"
     ],
     "description": "Get cached object"
   },
@@ -336,14 +472,14 @@
       "\thandler: function(object) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Get cached object (async)"
   },
   "$cache.remove(string)": {
     "prefix": "$cache.remove",
     "body": [
-      "\\$cache.remove(\"${1:key}\")"
+      "\\$cache.remove(\"${1:key}\");"
     ],
     "description": "Remove cached object"
   },
@@ -355,14 +491,14 @@
       "\thandler: function() {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Remove cached object (async)"
   },
   "$cache.clear()": {
     "prefix": "$cache.clear",
     "body": [
-      "\\$cache.clear()"
+      "\\$cache.clear();"
     ],
     "description": "Clear all cached object"
   },
@@ -373,7 +509,7 @@
       "\thandler: function() {",
       "\t\t$1",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Clear all cached object (async)"
   },
@@ -385,7 +521,7 @@
       "\thandler: function() {",
       "\t\t$1",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Execute on background thread"
   },
@@ -397,7 +533,7 @@
       "\thandler: function() {",
       "\t\t$1",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Execute on main thread"
   },
@@ -406,7 +542,7 @@
     "body": [
       "\\$delay(0.3, function() {",
       "\t$1",
-      "})"
+      "});"
     ],
     "description": "Execute with a delay (in second)"
   },
@@ -418,7 +554,7 @@
       "\thandler: function() {",
       "\t\t$1",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Schedule a timer"
   },
@@ -429,12 +565,26 @@
     ],
     "description": "Get text from clipboard"
   },
+  "$clipboard.texts": {
+    "prefix": "$clipboard.texts",
+    "body": [
+      "\\$clipboard.texts"
+    ],
+    "description": "Get all texts from clipboard"
+  },
   "$clipboard.image": {
     "prefix": "$clipboard.image",
     "body": [
       "\\$clipboard.image"
     ],
     "description": "Get image from clipboard"
+  },
+  "$clipboard.images": {
+    "prefix": "$clipboard.images",
+    "body": [
+      "\\$clipboard.images"
+    ],
+    "description": "Get all images from clipboard"
   },
   "$clipboard.items": {
     "prefix": "$clipboard.items",
@@ -502,7 +652,7 @@
   "$clipboard.setTextLocalOnly(string)": {
     "prefix": "$clipboard.setTextLocalOnly",
     "body": [
-      "\\$clipboard.setTextLocalOnly(\"${1:text}\")"
+      "\\$clipboard.setTextLocalOnly(\"${1:text}\");"
     ],
     "description": "Set text to local clipboard"
   },
@@ -512,7 +662,7 @@
       "\\$clipboard.set({",
       "\t\"type\": \"$1\",",
       "\t\"value\": ${2:value}",
-      "})"
+      "});"
     ],
     "description": "Set key-value to clipboard"
   },
@@ -523,138 +673,136 @@
       "\t\"${1|text,image,data|}\": ${2:object},",
       "\t\"ttl\": 30,",
       "\t\"locally\": ${3|true,false|}",
-      "})"
+      "});"
     ],
     "description": "Copy text to clipboard with options"
   },
   "$clipboard.clear()": {
     "prefix": "$clipboard.clear",
     "body": [
-      "\\$clipboard.clear()"
+      "\\$clipboard.clear();"
     ],
     "description": "Clear clipboard"
   },
-  "$l10n": {
+  "$l10n(key)": {
     "prefix": "$l10n",
     "body": [
-      "\\$l10n(\"${1:key}\")"
+      "\\$l10n(\"${1:key}\");"
     ],
     "description": "Get localized string"
   },
   "$rect(x, y, width, height)": {
     "prefix": "$rect",
     "body": [
-      "\\$rect(${1:x}, ${2:y}, ${3:width}, ${4:height})"
+      "\\$rect(${1:x}, ${2:y}, ${3:width}, ${4:height});"
     ],
     "description": "Create a rect"
   },
   "$size(width, height)": {
     "prefix": "$size",
     "body": [
-      "\\$size(${1:width}, ${2:height})"
+      "\\$size(${1:width}, ${2:height});"
     ],
     "description": "Create a size"
   },
   "$point(x, y)": {
     "prefix": "$point",
     "body": [
-      "\\$point(${1:x}, ${2:y})"
+      "\\$point(${1:x}, ${2:y});"
     ],
     "description": "Create a point"
   },
   "$insets(top, left, bottom, right)": {
     "prefix": "$insets",
     "body": [
-      "\\$insets(${1:top}, ${2:left}, ${3:bottom}, ${4:right})"
+      "\\$insets(${1:top}, ${2:left}, ${3:bottom}, ${4:right});"
     ],
     "description": "Create a point"
   },
   "$color(hex)": {
     "prefix": "$color",
     "body": [
-      "\\$color(\"#${1:000000}\")"
+      "\\$color(\"#${1:000000}\");"
     ],
     "description": "Create a color with hex"
   },
   "$color(name)": {
     "prefix": "$color",
     "body": [
-      "\\$color(\"${1|tint,black,darkGray,lightGray,white,gray,red,green,blue,cyan,yellow,magenta,orange,purple,brown,clear|}\")"
+      "\\$color(\"${1|tint,black,darkGray,lightGray,white,gray,red,green,blue,cyan,yellow,magenta,orange,purple,brown,clear|}\");"
     ],
     "description": "Create a color with name"
   },
   "$rgb(red, green, blue)": {
     "prefix": "$rgb",
     "body": [
-      "\\$rgb(${1:red}, ${2:green}, ${3:blue})"
+      "\\$rgb(${1:red}, ${2:green}, ${3:blue});"
     ],
     "description": "Create a color with rgb"
   },
   "$rgba(red, green, blue, alpha)": {
     "prefix": "$rgba",
     "body": [
-      "\\$rgba(${1:red}, ${2:green}, ${3:blue}, ${4:alpha})"
+      "\\$rgba(${1:red}, ${2:green}, ${3:blue}, ${4:alpha});"
     ],
     "description": "Create a color with rgba"
   },
   "$font(size)": {
     "prefix": "$font",
     "body": [
-      "\\$font(${1:size})"
+      "\\$font(${1:size});"
     ],
     "description": "Create a font with size"
   },
   "$font(weight, size)": {
     "prefix": "$font",
     "body": [
-      "\\$font(\"${1|bold,default|}\", ${2:size})"
+      "\\$font(\"${1|bold,default|}\", ${2:size});"
     ],
     "description": "Create a font with weight and size"
   },
   "$font(name, size)": {
     "prefix": "$font",
     "body": [
-      "\\$font(\"${1:name}\", ${2:size})"
+      "\\$font(\"${1:name}\", ${2:size});"
     ],
     "description": "Create a font with name and size"
   },
   "$range(location, length)": {
     "prefix": "$range",
     "body": [
-      "\\$range(${1:location}, ${2:length})"
+      "\\$range(${1:location}, ${2:length});"
     ],
     "description": "Create a range"
   },
   "$indexPath(section, row)": {
     "prefix": "$indexPath",
     "body": [
-      "\\$indexPath(${1:section}, ${2:row})"
+      "\\$indexPath(${1:section}, ${2:row});"
     ],
     "description": "Create an indexPath"
   },
   "$data(object)": {
     "prefix": "$data",
     "body": [
-      "\\$data({\"${1|string,path,url|}\": ${2:object}})"
+      "\\$data({\"${1|string,path,url|}\": ${2:object}});"
     ],
     "description": "Create a data"
   },
   "$icon(code, color, size)": {
     "prefix": "$icon",
     "body": [
-      "\\$icon(${1:code}, ${2:color}, ${3:size})"
+      "\\$icon(${1:code}, ${2:color}, ${3:size});"
     ],
     "description": "Create an icon"
   },
-  "$props": {
+  "$props(object)": {
     "prefix": "$props",
     "body": [
-      "\\$props(\"${1:key}\")"
+      "\\$props(\"${1:object}\");"
     ],
     "description": "Get all properties of an object"
   },
-
-  // Constants
   "$env": {
     "prefix": "$env",
     "body": [
@@ -774,7 +922,21 @@
     ],
     "description": "PageSize constants"
   },
-  "$ui.render": {
+  "$ui.window": {
+    "prefix": "$ui.window",
+    "body": [
+      "\\$ui.window"
+    ],
+    "description": "Get current window"
+  },
+  "$ui.vc": {
+    "prefix": "$ui.vc",
+    "body": [
+      "\\$ui.vc"
+    ],
+    "description": "Get current view controller"
+  },
+  "$ui.render(views)": {
     "prefix": "$ui.render",
     "body": [
       "\\$ui.render({",
@@ -782,7 +944,7 @@
       "\t\ttitle: \"$1\"",
       "\t},",
       "\tviews: [{",
-      "\t\ttype: \"${2|view,label,tab,button,input,slider,switch,spinner,progress,gallery,stepper,image,scroll,text,map,web,list,matrix,date-picker,picker,video,canvas,menu|}\",",
+      "\t\ttype: \"${2|view,label,tab,button,input,slider,switch,spinner,progress,gallery,stepper,image,scroll,text,map,web,list,matrix,date-picker,picker,video,canvas,menu,blur,gradient,markdown,runtime|}\",",
       "\t\tprops: {",
       "\t\t\tid: \"$3\"",
       "\t\t},",
@@ -793,11 +955,11 @@
       "\t\t\t$5",
       "\t\t}",
       "\t}]",
-      "})"
+      "});"
     ],
     "description": "Render views"
   },
-  "$ui.push": {
+  "$ui.push(views)": {
     "prefix": "$ui.push",
     "body": [
       "\\$ui.push({",
@@ -805,7 +967,7 @@
       "\t\ttitle: \"$1\"",
       "\t},",
       "\tviews: [{",
-      "\t\ttype: \"${2|view,label,tab,button,input,slider,switch,spinner,progress,gallery,stepper,image,scroll,text,map,web,list,matrix,date-picker,picker,video,canvas,menu|}\",",
+      "\t\ttype: \"${2|view,label,tab,button,input,slider,switch,spinner,progress,gallery,stepper,image,scroll,text,map,web,list,matrix,date-picker,picker,video,canvas,menu,blur,gradient,markdown,runtime|}\",",
       "\t\tprops: {",
       "\t\t\tid: \"$3\"",
       "\t\t},",
@@ -816,9 +978,27 @@
       "\t\t\t$5",
       "\t\t}",
       "\t}]",
-      "})"
+      "});"
     ],
     "description": "Push views"
+  },
+  "$ui.create(view)": {
+    "prefix": "$ui.create",
+    "body": [
+      "\\$ui.create({",
+      "\ttype: \"${1|view,label,tab,button,input,slider,switch,spinner,progress,gallery,stepper,image,scroll,text,map,web,list,matrix,date-picker,picker,video,canvas,menu,blur,gradient,markdown,runtime|}\",",
+      "\tprops: {",
+      "\t\tid: \"$2\"",
+      "\t},",
+      "\tlayout: function(make, view) {",
+      "\t\t$3",
+      "\t},",
+      "\tevents: {",
+      "\t\t$4",
+      "\t}",
+      "});"
+    ],
+    "description": "Create a view"
   },
   "make.left": {
     "prefix": "make.left",
@@ -890,7 +1070,7 @@
     ],
     "description": "make.size"
   },
-  "$ui.animate": {
+  "$ui.animate(object)": {
     "prefix": "$ui.animate",
     "body": [
       "\\$ui.animate({",
@@ -905,21 +1085,28 @@
       "\tcompletion: function() {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Animate changes of views"
   },
-  "$ui.pop": {
+  "$ui.pop()": {
     "prefix": "$ui.pop",
     "body": [
-      "\\$ui.pop()"
+      "\\$ui.pop();"
     ],
     "description": "Pop the most front view"
+  },
+  "$ui.popToRoot()": {
+    "prefix": "$ui.popToRoot",
+    "body": [
+      "\\$ui.popToRoot();"
+    ],
+    "description": "Pop to root view"
   },
   "$ui.get(id)": {
     "prefix": "$ui.get",
     "body": [
-      "\\$ui.get(\"${1:id}\")"
+      "\\$ui.get(\"${1:id}\");"
     ],
     "description": "Get an view by id"
   },
@@ -929,7 +1116,7 @@
       "\\$ui.alert({",
       "\ttitle: \"$1\",",
       "\tmessage: \"$2\",",
-      "})"
+      "});"
     ],
     "description": "Present an alert"
   },
@@ -941,35 +1128,42 @@
       "\thandler: function(title, idx) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Popup a menu"
   },
   "$ui.toast(message)": {
     "prefix": "$ui.toast",
     "body": [
-      "\\$ui.toast(\"${1:message}\")"
+      "\\$ui.toast(\"${1:message}\");"
     ],
     "description": "Show a toast"
+  },
+  "$ui.clearToast()": {
+    "prefix": "$ui.clearToast",
+    "body": [
+      "\\$ui.clearToast();"
+    ],
+    "description": "Clear the toast"
   },
   "$ui.error(message)": {
     "prefix": "$ui.error",
     "body": [
-      "\\$ui.error(\"${1:message}\")"
+      "\\$ui.error(\"${1:message}\");"
     ],
     "description": "Show an error"
   },
   "$ui.loading(boolean)": {
     "prefix": "$ui.loading",
     "body": [
-      "\\$ui.loading(${1|true,false|})"
+      "\\$ui.loading(${1|true,false|});"
     ],
     "description": "Toggle the loading state"
   },
   "$ui.progress(number)": {
     "prefix": "$ui.progress",
     "body": [
-      "\\$ui.progress(${1:number})"
+      "\\$ui.progress(${1:number});"
     ],
     "description": "Update the progress value"
   },
@@ -979,9 +1173,20 @@
       "\\$ui.preview({",
       "\ttitle: \"\",",
       "\t${1|url,html,text|}: \"\"",
-      "})"
+      "});"
     ],
     "description": "Preview a media"
+  },
+  "$ui.selectIcon(object)": {
+    "prefix": "$ui.selectIcon",
+    "body": [
+      "\\$ui.selectIcon({",
+      "\thandler: function(name) {",
+      "\t\t$1",
+      "\t}",
+      "});"
+    ],
+    "description": "Select a built-in icon"
   },
   "$input.text(object)": {
     "prefix": "$input.text",
@@ -993,9 +1198,21 @@
       "\thandler: function(text) {",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Input a text"
+  },
+  "$input.speech(object)": {
+    "prefix": "$input.speech",
+    "body": [
+      "\\$input.speech({",
+      "\tlocale: \"$1\",",
+      "\thandler: function(text) {",
+      "\t\t$2",
+      "\t}",
+      "});"
+    ],
+    "description": "Text dictation"
   },
   "$context.query": {
     "prefix": "$context.query",
@@ -1077,14 +1294,14 @@
   "$context.close()": {
     "prefix": "$context.close",
     "body": [
-      "\\$context.close()"
+      "\\$context.close();"
     ],
     "description": "Close current context(extension)"
   },
   "$file.read(path)": {
     "prefix": "$file.read",
     "body": [
-      "\\$file.read(\"${1:path}\")"
+      "\\$file.read(\"${1:path}\");"
     ],
     "description": "Read a file with path"
   },
@@ -1094,21 +1311,21 @@
       "\\$file.write({",
       "\tdata: ${1:data},",
       "\tpath: \"$2\"",
-      "})"
+      "});"
     ],
     "description": "Write a file to disk"
   },
   "$file.delete(path)": {
     "prefix": "$file.delete",
     "body": [
-      "\\$file.delete(\"${1:path}\")"
+      "\\$file.delete(\"${1:path}\");"
     ],
     "description": "Delete a file with path"
   },
   "$file.list(path)": {
     "prefix": "$file.list",
     "body": [
-      "\\$file.list(\"${1:path}\")"
+      "\\$file.list(\"${1:path}\");"
     ],
     "description": "List a directory with path"
   },
@@ -1118,7 +1335,7 @@
       "\\$file.copy({",
       "\tsrc: \"$1\",",
       "\tdst: \"$2\"",
-      "})"
+      "});"
     ],
     "description": "Copy a file"
   },
@@ -1128,28 +1345,28 @@
       "\\$file.move({",
       "\tsrc: \"$1\",",
       "\tdst: \"$2\"",
-      "})"
+      "});"
     ],
     "description": "Move a file"
   },
   "$file.mkdir(path)": {
     "prefix": "$file.mkdir",
     "body": [
-      "\\$file.mkdir(\"${1:path}\")"
+      "\\$file.mkdir(\"${1:path}\");"
     ],
     "description": "Make a directory with path"
   },
   "$file.exists(path)": {
     "prefix": "$file.exists",
     "body": [
-      "\\$file.exists(\"${1:path}\")"
+      "\\$file.exists(\"${1:path}\");"
     ],
     "description": "Check whether a file exists"
   },
   "$file.isDirectory(path)": {
     "prefix": "$file.isDirectory",
     "body": [
-      "\\$file.isDirectory(\"${1:path}\")"
+      "\\$file.isDirectory(\"${1:path}\");"
     ],
     "description": "Check whether a path is directory"
   },
@@ -1160,7 +1377,7 @@
       "\thandler: function(data) {",
       "\t\t$1",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Open iCloud Drive document picker"
   },
@@ -1172,14 +1389,14 @@
       "\thandler: function() {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Save a file to iCloud Drive"
   },
   "$drive.read(path)": {
     "prefix": "$drive.read",
     "body": [
-      "\\$drive.read(\"${1:path}\")"
+      "\\$drive.read(\"${1:path}\");"
     ],
     "description": "Read a file with path"
   },
@@ -1189,21 +1406,21 @@
       "\\$drive.write({",
       "\tdata: ${1:data},",
       "\tpath: \"$2\"",
-      "})"
+      "});"
     ],
     "description": "Write a file to disk"
   },
   "$drive.delete(path)": {
     "prefix": "$drive.delete",
     "body": [
-      "\\$drive.delete(\"${1:path}\")"
+      "\\$drive.delete(\"${1:path}\");"
     ],
     "description": "Delete a file with path"
   },
   "$drive.list(path)": {
     "prefix": "$drive.list",
     "body": [
-      "\\$drive.list(\"${1:path}\")"
+      "\\$drive.list(\"${1:path}\");"
     ],
     "description": "List a directory with path"
   },
@@ -1213,7 +1430,7 @@
       "\\$drive.copy({",
       "\tsrc: \"$1\",",
       "\tdst: \"$2\"",
-      "})"
+      "});"
     ],
     "description": "Copy a file"
   },
@@ -1223,28 +1440,28 @@
       "\\$drive.move({",
       "\tsrc: \"$1\",",
       "\tdst: \"$2\"",
-      "})"
+      "});"
     ],
     "description": "Move a file"
   },
   "$drive.mkdir(path)": {
     "prefix": "$drive.mkdir",
     "body": [
-      "\\$drive.mkdir(\"${1:path}\")"
+      "\\$drive.mkdir(\"${1:path}\");"
     ],
     "description": "Make a directory with path"
   },
   "$drive.exists(path)": {
     "prefix": "$drive.exists",
     "body": [
-      "\\$drive.exists(\"${1:path}\")"
+      "\\$drive.exists(\"${1:path}\");"
     ],
     "description": "Check whether a file exists"
   },
   "$drive.isDirectory(path)": {
     "prefix": "$drive.isDirectory",
     "body": [
-      "\\$drive.isDirectory(\"${1:path}\")"
+      "\\$drive.isDirectory(\"${1:path}\");"
     ],
     "description": "Check whether a path is directory"
   },
@@ -1255,29 +1472,236 @@
     ],
     "description": "Get all installed addins"
   },
+  "$addin.current": {
+    "prefix": "$addin.current",
+    "body": [
+      "\\$addin.current"
+    ],
+    "description": "Get current running addin"
+  },
   "$addin.save(object)": {
     "prefix": "$addin.save",
     "body": [
       "\\$addin.save({",
       "\tname: \"$1\",",
       "\tdata: ${2:data}",
-      "})"
+      "});"
     ],
     "description": "Save an addins to JSBox"
   },
   "$addin.delete(name)": {
     "prefix": "$addin.delete",
     "body": [
-      "\\$addin.delete(\"${1:name}\")"
+      "\\$addin.delete(\"${1:name}\");"
     ],
     "description": "Delete an existed addin with name"
   },
   "$addin.run(name)": {
     "prefix": "$addin.run",
     "body": [
-      "\\$addin.run(\"${1:name}\")"
+      "\\$addin.run(\"${1:name}\");"
     ],
     "description": "Run an existed addin with name"
+  },
+  "$addin.compile(script)": {
+    "prefix": "$addin.compile",
+    "body": [
+      "\\$addin.compile(\"${1:script}\");"
+    ],
+    "description": "Compile script to JSBox's syntax"
+  },
+  "$addin.eval(script)": {
+    "prefix": "$addin.eval",
+    "body": [
+      "\\$addin.eval(\"${1:script}\");"
+    ],
+    "description": "Evaluate script with JSBox's syntax"
+  },
+  "$browser.exec(object)": {
+    "prefix": "$browser.exec",
+    "body": [
+      "\\$browser.exec({",
+      "\tscript: \"$1\",",
+      "\thandler: function() {",
+      "\t\t$2",
+      "\t}",
+      "});"
+    ],
+    "description": "Evaluate script in browser environment"
+  },
+  "$keyboard.hasText": {
+    "prefix": "$keyboard.hasText",
+    "body": [
+      "\\$keyboard.hasText"
+    ],
+    "description": "Check whether text field has text"
+  },
+  "$keyboard.selectedText": {
+    "prefix": "$keyboard.selectedText",
+    "body": [
+      "\\$keyboard.selectedText"
+    ],
+    "description": "Get selected text from text field"
+  },
+  "$keyboard.insert(text)": {
+    "prefix": "$keyboard.insert",
+    "body": [
+      "\\$keyboard.insert(\"${1:text}\");"
+    ],
+    "description": "Insert text to text field"
+  },
+  "$keyboard.delete()": {
+    "prefix": "$keyboard.delete",
+    "body": [
+      "\\$keyboard.delete();"
+    ],
+    "description": "Delete text in text field"
+  },
+  "$keyboard.moveCursor(offset)": {
+    "prefix": "$keyboard.moveCursor",
+    "body": [
+      "\\$keyboard.moveCursor(${1:offset});"
+    ],
+    "description": "Move cursor in text field"
+  },
+  "$keyboard.playInputClick()": {
+    "prefix": "$keyboard.playInputClick",
+    "body": [
+      "\\$keyboard.playInputClick();"
+    ],
+    "description": "Play input click audio"
+  },
+  "$keyboard.next()": {
+    "prefix": "$keyboard.next",
+    "body": [
+      "\\$keyboard.next();"
+    ],
+    "description": "Switch to next keyboard"
+  },
+  "$keyboard.dismiss()": {
+    "prefix": "$keyboard.dismiss",
+    "body": [
+      "\\$keyboard.dismiss();"
+    ],
+    "description": "Dismiss current keyboard"
+  },
+  "$network.ifa_data": {
+    "prefix": "$network.ifa_data",
+    "body": [
+      "\\$network.ifa_data"
+    ],
+    "description": "Get current ifa data"
+  },
+  "$network.proxy_settings": {
+    "prefix": "$network.proxy_settings",
+    "body": [
+      "\\$network.proxy_settings"
+    ],
+    "description": "Get current proxy settings"
+  },
+  "$network.startPinging(object)": {
+    "prefix": "$network.startPinging",
+    "body": [
+      "\\$network.startPinging({",
+      "\thost: \"$1\",",
+      "\ttimeout: $2,",
+      "\tttl: $3",
+      "});"
+    ],
+    "description": "Start pinging"
+  },
+  "$network.stopPinging()": {
+    "prefix": "$network.stopPinging",
+    "body": [
+      "\\$network.stopPinging();"
+    ],
+    "description": "Stop pinging"
+  },
+  "$ssh.connect()": {
+    "prefix": "$ssh.connect",
+    "body": [
+      "\\$ssh.connect({",
+      "\thost: \"$1\",",
+      "\tusername: \"$2\",",
+      "\tport: $3,",
+      "\tpublic_key: $4,",
+      "\tprivate_key: $5",
+      "});"
+    ],
+    "description": "Create SSH connect"
+  },
+  "$ssh.disconnect()": {
+    "prefix": "$ssh.disconnect",
+    "body": [
+      "\\$ssh.disconnect();"
+    ],
+    "description": "Stop SSH connect"
+  },
+  "$lua.eval(script)": {
+    "prefix": "$lua.eval",
+    "body": [
+      "\\$lua.eval(\"${1:script}\");"
+    ],
+    "description": "Evaluate lua script"
+  },
+  "$lua.load(path)": {
+    "prefix": "$lua.load",
+    "body": [
+      "\\$lua.load(\"${1:path}\");"
+    ],
+    "description": "Evaluate lua from path"
+  },
+  "$lua.call(object)": {
+    "prefix": "$lua.call",
+    "body": [
+      "\\$lua.call({",
+      "\tname: \"$1\",",
+      "\targs: $2",
+      "});"
+    ],
+    "description": "Call an existing lua function"
+  },
+  "$lua.retain(object)": {
+    "prefix": "$lua.retain",
+    "body": [
+      "\\$lua.retain(${1:object});"
+    ],
+    "description": "Retain a lua object"
+  },
+  "$lua.release(object)": {
+    "prefix": "$lua.release",
+    "body": [
+      "\\$lua.release(${1:object});"
+    ],
+    "description": "Release a lua object"
+  },
+  "$widget.mode": {
+    "prefix": "$widget.mode",
+    "body": [
+      "\\$widget.mode"
+    ],
+    "description": "Get current widget mode"
+  },
+  "$widget.modeChanged": {
+    "prefix": "$widget.modeChanged",
+    "body": [
+      "\\$widget.modeChanged"
+    ],
+    "description": "Widget mode changed callback"
+  },
+  "$widget.height": {
+    "prefix": "$widget.height",
+    "body": [
+      "\\$widget.height"
+    ],
+    "description": "Get current widget height"
+  },
+  "$intents.finish(result)": {
+    "prefix": "$intents.finish",
+    "body": [
+      "\\$intents.finish(${1:result})"
+    ],
+    "description": "Finish intents with result"
   },
   "$photo.take(object)": {
     "prefix": "$photo.take",
@@ -1285,10 +1709,10 @@
       "\\$photo.take({",
       "\tformat: \"${1|image,data|}\",",
       "\thandler: function(resp) {",
-      "\t\tvar image = resp.image",
+      "\t\tvar image = resp.image;",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Take a photo with camera"
   },
@@ -1298,10 +1722,10 @@
       "\\$photo.pick({",
       "\tformat: \"${1|image,data|}\",",
       "\thandler: function(resp) {",
-      "\t\tvar image = resp.image",
+      "\t\tvar image = resp.image;",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Pick a photo in photo library"
   },
@@ -1310,10 +1734,10 @@
     "body": [
       "\\$photo.prompt({",
       "\thandler: function(resp) {",
-      "\t\tvar image = resp.image",
+      "\t\tvar image = resp.image;",
       "\t\t$1",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Let users choose take or pick"
   },
@@ -1325,7 +1749,7 @@
       "\thandler: function(success) {",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Save a photo to library"
   },
@@ -1338,7 +1762,7 @@
       "\thandler: function(images) {",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Fetch photos from library"
   },
@@ -1350,16 +1774,65 @@
       "\thandler: function(success) {",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Delete photos in library"
   },
   "$audio.play(object)": {
     "prefix": "$audio.play",
     "body": [
-      "\\$audio.play({${1|url,id|}: ${2:object}})"
+      "\\$audio.play({${1|url,id|}: ${2:object}});"
     ],
     "description": "Play audio track"
+  },
+  "$audio.pause()": {
+    "prefix": "$audio.pause",
+    "body": [
+      "\\$audio.pause();"
+    ],
+    "description": "Pause audio track"
+  },
+  "$audio.resume()": {
+    "prefix": "$audio.resume",
+    "body": [
+      "\\$audio.resume();"
+    ],
+    "description": "Resume audio track"
+  },
+  "$audio.stop()": {
+    "prefix": "$audio.stop",
+    "body": [
+      "\\$audio.stop();"
+    ],
+    "description": "Stop audio track"
+  },
+  "$audio.seek(seconds)": {
+    "prefix": "$audio.seek",
+    "body": [
+      "\\$audio.seek(${1:seconds});"
+    ],
+    "description": "Seek audio track to seconds"
+  },
+  "$audio.status": {
+    "prefix": "$audio.status",
+    "body": [
+      "\\$audio.status"
+    ],
+    "description": "Get audio track status"
+  },
+  "$audio.duration": {
+    "prefix": "$audio.duration",
+    "body": [
+      "\\$audio.duration"
+    ],
+    "description": "Get audio track duration"
+  },
+  "$audio.offset": {
+    "prefix": "$audio.offset",
+    "body": [
+      "\\$audio.offset"
+    ],
+    "description": "Get audio track offset"
   },
   "$pdf.make(object)": {
     "prefix": "$pdf.make",
@@ -1368,10 +1841,10 @@
       "\t${1|url,html|}: \"$2\",",
       "\tpageSize: \\$pageSize.A5,",
       "\thandler: function(resp) {",
-      "\t\tvar data = resp.data",
+      "\t\tvar data = resp.data;",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Make PDF document"
   },
@@ -1385,7 +1858,7 @@
       "\thandler: function(result) {",
       "\t\t$4",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Send a text message"
   },
@@ -1399,7 +1872,7 @@
       "\thandler: function(result) {",
       "\t\t$4",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Send an email"
   },
@@ -1410,10 +1883,10 @@
       "\tstartDate: ${1:date},",
       "\thours: ${2:hours},",
       "\thandler: function(resp) {",
-      "\t\tvar events = resp.events",
+      "\t\tvar events = resp.events;",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Fetch calendar items"
   },
@@ -1428,14 +1901,14 @@
       "\thandler: function(resp) {",
       "\t\t$5",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Create a calendar item"
   },
   "$calendar.save(object)": {
     "prefix": "$calendar.save",
     "body": [
-      "\\$calendar.save({event: ${1:event}})"
+      "\\$calendar.save({event: ${1:event}});"
     ],
     "description": "Save a calendar item after modified"
   },
@@ -1447,7 +1920,7 @@
       "\thandler: function(resp) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Delete a calendar item"
   },
@@ -1458,10 +1931,10 @@
       "\tstartDate: ${1:date},",
       "\thours: ${2:hours},",
       "\thandler: function(resp) {",
-      "\t\tvar events = resp.events",
+      "\t\tvar events = resp.events;",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Fetch reminder items"
   },
@@ -1476,7 +1949,7 @@
       "\thandler: function(resp) {",
       "\t\t$5",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Create a reminder"
   },
@@ -1488,7 +1961,7 @@
       "\thandler: function(resp) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Save a reminder item after modified"
   },
@@ -1500,7 +1973,7 @@
       "\thandler: function(resp) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Delete a reminder item"
   },
@@ -1512,7 +1985,7 @@
       "\thandler: function(contact) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Pick contacts"
   },
@@ -1524,7 +1997,7 @@
       "\thandler: function(contacts) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Fetch contacts"
   },
@@ -1543,7 +2016,7 @@
       "\thandler: function(resp) {",
       "\t\t$5",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Create a contact"
   },
@@ -1555,7 +2028,7 @@
       "\thandler: function(resp) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Save a contact after modified"
   },
@@ -1567,23 +2040,109 @@
       "\thandler: function(resp) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Delete some contacts"
+  },
+  "$contact.fetchGroups(object)": {
+    "prefix": "$contact.fetchGroups",
+    "body": [
+      "\\$contact.fetchGroups({",
+      "\thandler: function(groups) {",
+      "\t\t$1",
+      "\t}",
+      "});"
+    ],
+    "description": "Fetch all groups"
+  },
+  "$contact.addGroup(object)": {
+    "prefix": "$contact.addGroup",
+    "body": [
+      "\\$contact.addGroup({",
+      "\tname: \"$1\",",
+      "\thandler: function(group) {",
+      "\t\t$2",
+      "\t}",
+      "});"
+    ],
+    "description": "Add a group with name"
+  },
+  "$contact.deleteGroup(object)": {
+    "prefix": "$contact.deleteGroup",
+    "body": [
+      "\\$contact.deleteGroup({",
+      "\tgroup: $1,",
+      "\thandler: function(success) {",
+      "\t\t$2",
+      "\t}",
+      "});"
+    ],
+    "description": "Delete an existing group"
+  },
+  "$contact.updateGroup(object)": {
+    "prefix": "$contact.updateGroup",
+    "body": [
+      "\\$contact.updateGroup({",
+      "\tgroup: $1,",
+      "\thandler: function(success) {",
+      "\t\t$2",
+      "\t}",
+      "});"
+    ],
+    "description": "Save an updated group"
+  },
+  "$contact.addToGroup(object)": {
+    "prefix": "$contact.addToGroup",
+    "body": [
+      "\\$contact.addToGroup({",
+      "\tcontact: $1,",
+      "\tgroup: $2,",
+      "\thandler: function(success) {",
+      "\t\t$3",
+      "\t}",
+      "});"
+    ],
+    "description": "Add a contact to a group"
+  },
+  "$contact.removeFromGroup(object)": {
+    "prefix": "$contact.removeFromGroup",
+    "body": [
+      "\\$contact.removeFromGroup({",
+      "\tcontact: $1,",
+      "\tgroup: $2,",
+      "\thandler: function(success) {",
+      "\t\t$3",
+      "\t}",
+      "});"
+    ],
+    "description": "Remove a contact from a group"
   },
   "$location.fetch(object)": {
     "prefix": "$location.fetch",
     "body": [
       "\\$location.fetch({",
       "\thandler: function(resp) {",
-      "\t\tvar lat = resp.lat",
-      "\t\tvar lng = resp.lat",
-      "\t\tvar alt = resp.alt",
+      "\t\tvar lat = resp.lat;",
+      "\t\tvar lng = resp.lat;",
+      "\t\tvar alt = resp.alt;",
       "\t\t$1",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Fetch current location"
+  },
+  "$location.select(object)": {
+    "prefix": "$location.select",
+    "body": [
+      "\\$location.select({",
+      "\thandler: function(resp) {",
+      "\t\tvar lat = resp.lat;",
+      "\t\tvar lng = resp.lat;",
+      "\t\t$1",
+      "\t}",
+      "});"
+    ],
+    "description": "Select location from map"
   },
   "$location.startUpdates(object)": {
     "prefix": "$location.startUpdates",
@@ -1595,7 +2154,7 @@
       "\t\tvar alt = resp.alt",
       "\t\t$1",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Track user location"
   },
@@ -1612,14 +2171,14 @@
       "\t\tvar z = resp.z",
       "\t\t$1",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Track user heading"
   },
   "$location.stopUpdates()": {
     "prefix": "$location.stopUpdates",
     "body": [
-      "\\$location.stopUpdates()"
+      "\\$location.stopUpdates();"
     ],
     "description": "Stop track user location"
   },
@@ -1631,14 +2190,14 @@
       "\thandler: function(resp) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Start track sensor data"
   },
   "$motion.stopUpdates()": {
     "prefix": "$motion.stopUpdates",
     "body": [
-      "\\$motion.stopUpdates()"
+      "\\$motion.stopUpdates();"
     ],
     "description": "Stop track sensor data"
   },
@@ -1652,9 +2211,27 @@
       "\thandler: function() {",
       "\t\t$4",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Open URL with Safari"
+  },
+  "$safari.inject(script)": {
+    "prefix": "$safari.inject",
+    "body": [
+      "\\$safari.inject(\"${1:script}\");"
+    ],
+    "description": "Inject script into Safari"
+  },
+  "$safari.addReadingItem(script)": {
+    "prefix": "$safari.addReadingItem",
+    "body": [
+      "\\$safari.addReadingItem({",
+      "\turl: \"$1\",",
+      "\ttitle: \"$2\",",
+      "\tpreview: \"$3\"",
+      "});"
+    ],
+    "description": "Add to Safari reading list"
   },
   "$text.tokenize(object)": {
     "prefix": "$text.tokenize",
@@ -1664,14 +2241,14 @@
       "\thandler: function(results) {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Text tokenization"
   },
   "$text.lookup(string)": {
     "prefix": "$text.lookup",
     "body": [
-      "\\$text.lookup(\"${1:text}\")"
+      "\\$text.lookup(\"${1:text}\");"
     ],
     "description": "Lookup text"
   },
@@ -1681,105 +2258,143 @@
       "\\$text.speech({",
       "\ttext: \"$1\",",
       "\trate: ${2:rate}",
-      "})"
+      "});"
     ],
     "description": "Text speech"
   },
   "$text.base64Encode(string)": {
     "prefix": "$text.base64Encode",
     "body": [
-      "\\$text.base64Encode(\"${1:text}\")"
+      "\\$text.base64Encode(\"${1:text}\");"
     ],
     "description": "base64 Encode"
   },
   "$text.base64Decode(string)": {
     "prefix": "$text.base64Decode",
     "body": [
-      "\\$text.base64Decode(\"${1:text}\")"
+      "\\$text.base64Decode(\"${1:text}\");"
     ],
     "description": "base64 Decode"
   },
   "$text.URLEncode(string)": {
     "prefix": "$text.URLEncode",
     "body": [
-      "\\$text.URLEncode(\"${1:text}\")"
+      "\\$text.URLEncode(\"${1:text}\");"
     ],
     "description": "URL Encode"
   },
   "$text.URLDecode(string)": {
     "prefix": "$text.URLDecode",
     "body": [
-      "\\$text.URLDecode(\"${1:text}\")"
+      "\\$text.URLDecode(\"${1:text}\");"
     ],
     "description": "URL Decode"
   },
   "$text.HTMLEscape(string)": {
     "prefix": "$text.HTMLEscape",
     "body": [
-      "\\$text.HTMLEscape(\"${1:text}\")"
+      "\\$text.HTMLEscape(\"${1:text}\");"
     ],
     "description": "HTML Escape"
   },
   "$text.HTMLUnescape(string)": {
     "prefix": "$text.HTMLUnescape",
     "body": [
-      "\\$text.HTMLUnescape(\"${1:text}\")"
+      "\\$text.HTMLUnescape(\"${1:text}\");"
     ],
     "description": "HTML Unescape"
   },
   "$text.MD5(string)": {
     "prefix": "$text.MD5",
     "body": [
-      "\\$text.MD5(\"${1:text}\")"
+      "\\$text.MD5(\"${1:text}\");"
     ],
     "description": "MD5"
   },
   "$text.SHA1(string)": {
     "prefix": "$text.SHA1",
     "body": [
-      "\\$text.SHA1(\"${1:text}\")"
+      "\\$text.SHA1(\"${1:text}\");"
     ],
     "description": "SHA1"
   },
   "$text.SHA256(string)": {
     "prefix": "$text.SHA256",
     "body": [
-      "\\$text.SHA256(\"${1:text}\")"
+      "\\$text.SHA256(\"${1:text}\");"
     ],
     "description": "SHA256"
+  },
+  "$text.convertToPinYin(string)": {
+    "prefix": "$text.convertToPinYin",
+    "body": [
+      "\\$text.convertToPinYin(\"${1:text}\");"
+    ],
+    "description": "Convert text to Pin Yin"
+  },
+  "$text.markdownToHtml(string)": {
+    "prefix": "$text.markdownToHtml",
+    "body": [
+      "\\$text.markdownToHtml(\"${1:text}\");"
+    ],
+    "description": "Convert markdown to html"
+  },
+  "$text.htmlToMarkdown(string)": {
+    "prefix": "$text.htmlToMarkdown",
+    "body": [
+      "\\$text.htmlToMarkdown(\"${1:text}\");"
+    ],
+    "description": "Convert html to markdown"
+  },
+  "$text.decodeData(object)": {
+    "prefix": "$text.decodeData",
+    "body": [
+      "\\$text.decodeData({",
+      "\tdata: $1,",
+      "\tencoding: $2",
+      "});"
+    ],
+    "description": "Decode data to text"
   },
   "$share.sheet(object)": {
     "prefix": "$share.sheet",
     "body": [
-      "\\$share.sheet([${1:item}])"
+      "\\$share.sheet([${1:item}]);"
     ],
     "description": "Present share sheet"
   },
   "$share.wechat(object)": {
     "prefix": "$share.wechat",
     "body": [
-      "\\$share.wechat(${1:object})"
+      "\\$share.wechat(${1:object});"
     ],
     "description": "Share media to WeChat"
   },
   "$share.qq(object)": {
     "prefix": "$share.qq",
     "body": [
-      "\\$share.qq(${1:object})"
+      "\\$share.qq(${1:object});"
     ],
     "description": "Share media to QQ"
+  },
+  "$share.tim(object)": {
+    "prefix": "$share.tim",
+    "body": [
+      "\\$share.tim(${1:object});"
+    ],
+    "description": "Share media to TIM"
   },
   "$qrcode.encode(string)": {
     "prefix": "$qrcode.encode",
     "body": [
-      "\\$qrcode.encode(\"${1:string}\")"
+      "\\$qrcode.encode(\"${1:string}\");"
     ],
     "description": "Encode a string to qrcode image"
   },
   "$qrcode.decode(image)": {
     "prefix": "$qrcode.decode",
     "body": [
-      "\\$qrcode.decode(${1:image})"
+      "\\$qrcode.decode(${1:image});"
     ],
     "description": "Decode a qrcode image to string"
   },
@@ -1793,7 +2408,7 @@
       "\tcancelled() {",
       "\t\t$2",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Scan qrcode with camera"
   },
@@ -1804,7 +2419,7 @@
       "\ttitle: \"$1\",",
       "\tbody: \"$2\",",
       "\tdelay: ${3:delay}",
-      "})"
+      "});"
     ],
     "description": "Schedule a local push notification"
   },
@@ -1814,9 +2429,27 @@
       "\\$push.cancel({",
       "\ttitle: \"$1\",",
       "\tbody: \"$2\"",
-      "})"
+      "});"
     ],
     "description": "Cancel a local push notification"
+  },
+  "$push.clear()": {
+    "prefix": "$push.clear",
+    "body": [
+      "\\$push.clear();"
+    ],
+    "description": "Clear all push notifications"
+  },
+  "$picker.date(object)": {
+    "prefix": "$picker.date",
+    "body": [
+      "\\$picker.date({",
+      "\thandler: function(date) {",
+      "\t\t$1",
+      "\t}",
+      "});"
+    ],
+    "description": "Pick a date"
   },
   "$archiver.zip(object)": {
     "prefix": "$archiver.zip",
@@ -1827,7 +2460,7 @@
       "\thandler: function(success) {",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Create a zip archiver"
   },
@@ -1840,44 +2473,49 @@
       "\thandler: function(success) {",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Unarchive a zip file"
   },
   "$detector.date(string)": {
     "prefix": "$detector.date",
     "body": [
-      "\\$detector.date(\"${1:string}\")"
+      "\\$detector.date(\"${1:string}\");"
     ],
     "description": "Get all dates from string"
   },
   "$detector.address(string)": {
     "prefix": "$detector.address",
     "body": [
-      "\\$detector.address(\"${1:string}\")"
+      "\\$detector.address(\"${1:string}\");"
     ],
     "description": "Get all addresses from string"
   },
   "$detector.link(string)": {
     "prefix": "$detector.link",
     "body": [
-      "\\$detector.link(\"${1:string}\")"
+      "\\$detector.link(\"${1:string}\");"
     ],
     "description": "Get all links from string"
   },
   "$detector.phoneNumber(string)": {
     "prefix": "$detector.phoneNumber",
     "body": [
-      "\\$detector.phoneNumber(\"${1:string}\")"
+      "\\$detector.phoneNumber(\"${1:string}\");"
     ],
     "description": "Get all phone numbers from string"
   },
-
-  // Runtime
+  "$quicklook.open(object)": {
+    "prefix": "$quicklook.open",
+    "body": [
+      "\\$quicklook.open();"
+    ],
+    "description": "Open QuickLook view"
+  },
   "$objc(className)": {
     "prefix": "$objc",
     "body": [
-      "\\$objc(\"${1:className}\")"
+      "\\$objc(\"${1:className}\");"
     ],
     "description": "Get an objective-c class dynamically"
   },
@@ -1892,36 +2530,50 @@
       "\tclassEvents: {",
       "\t\t$3",
       "\t}",
-      "})"
+      "});"
     ],
     "description": "Create an objective-c class dynamically"
   },
   "$console.info(string)": {
     "prefix": "$console.info",
     "body": [
-      "\\$console.info(\"${1:string}\")"
+      "\\$console.info(\"${1:string}\");"
     ],
     "description": "Write info to console"
   },
   "$console.warn(string)": {
     "prefix": "$console.warn",
     "body": [
-      "\\$console.warn(\"${1:string}\")"
+      "\\$console.warn(\"${1:string}\");"
     ],
     "description": "Write warning to console"
   },
   "$console.error(string)": {
     "prefix": "$console.error",
     "body": [
-      "\\$console.error(\"${1:string}\")"
+      "\\$console.error(\"${1:string}\");"
     ],
     "description": "Write error to console"
   },
   "$console.clear()": {
     "prefix": "$console.clear",
     "body": [
-      "\\$console.clear()"
+      "\\$console.clear();"
     ],
     "description": "Clear console"
+  },
+  "$console.open()": {
+    "prefix": "$console.open",
+    "body": [
+      "\\$console.open();"
+    ],
+    "description": "Open console"
+  },
+  "$console.close()": {
+    "prefix": "$console.close",
+    "body": [
+      "\\$console.close();"
+    ],
+    "description": "Close console"
   }
 }

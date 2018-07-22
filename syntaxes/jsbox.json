@@ -15,7 +15,7 @@
     "functions": {
       "patterns": [
         {
-          "match": "(\\$require|\\$l10n|\\$delay|\\$rect|\\$size|\\$point|\\$insets|\\$color|\\$rgb|\\$rgba|\\$font|\\$range|\\$indexPath|\\$cellInset|\\$transform|\\$data|\\$labeledValue|\\$props|\\$objc|\\$define|\\$protocol|\\$icon)\\b",
+          "match": "(\\$require|\\$l10n|\\$delay|\\$rect|\\$size|\\$point|\\$insets|\\$color|\\$rgb|\\$rgba|\\$font|\\$range|\\$indexPath|\\$cellInset|\\$transform|\\$data|\\$labeledValue|\\$props|\\$objc|\\$objc_retain|\\$objc_release|\\$get_protocol|\\$objc_clean|\\$define_struct|\\$define|\\$protocol|\\$icon|\\$include)\\b",
           "name": "entity.name.function.jsbox"
         }
       ]
@@ -23,7 +23,7 @@
     "interfaces": {
       "patterns": [
         {
-          "match": "(\\$device)(?:\\s*\\.\\s*(taptic))?(?:\\s*\\.\\s*(info|space|ssid|networkType))?\\b(?!\\$)",
+          "match": "(\\$device)(?:\\s*\\.\\s*(taptic))?(?:\\s*\\.\\s*(info|isIphoneX|isIphonePlus|isIpad|isIpadPro|space|ssid|networkType|wlanAddress))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -37,7 +37,7 @@
           }
         },
         {
-          "match": "(\\$app)(?:\\s*\\.\\s*(close|openURL|canOpenURL|openExtension|openBrowser|listen|tips))?(?:\\s*\\.\\s*(debug|env|info|idleTimerDisabled|applicationIconBadgeNumber|networkActivityIndicatorVisible|autoKeyboardEnabled|keyboardToolbarEnabled|strings|minSDKVer|minOSVer))?\\b(?!\\$)",
+          "match": "(\\$app)(?:\\s*\\.\\s*(close|openURL|canOpenURL|openExtension|openBrowser|listen|notify|tips|setupWidget))?(?:\\s*\\.\\s*(debug|env|widgetIndex|info|idleTimerDisabled|applicationIconBadgeNumber|networkActivityIndicatorVisible|autoKeyboardEnabled|keyboardToolbarEnabled|rotateDisabled|strings|minSDKVer|minOSVer))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -51,7 +51,7 @@
           }
         },
         {
-          "match": "(\\$system)(?:\\s*\\.\\s*(call|sms|mailto|facetime|home))?(?:\\s*\\.\\s*(brightness|volume))?\\b(?!\\$)",
+          "match": "(\\$system)(?:\\s*\\.\\s*(call|sms|mailto|facetime|home|makeIcon))?(?:\\s*\\.\\s*(brightness|volume))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -65,7 +65,35 @@
           }
         },
         {
-          "match": "(\\$http)(?:\\s*\\.\\s*(setNetworkActivityIndicatorVisible|sync|request|get|post|download|upload|shorten|lengthen|startServer|stopServer))?(?:\\s*\\.\\s*(status))?\\b(?!\\$)",
+          "match": "(\\$timer)(?:\\s*\\.\\s*(schedule))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            },
+            "3": {
+              "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$clipboard)(?:\\s*\\.\\s*(setTextLocalOnly|clear|copy|set))?(?:\\s*\\.\\s*(items|text|texts|html|image|images|phoneNumbers|phoneNumber|links|link|emails|email|dates|date))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            },
+            "3": {
+              "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$http)(?:\\s*\\.\\s*(setNetworkActivityIndicatorVisible|sync|request|get|post|download|upload|shorten|lengthen|startServer|stopServer|suspend|resume|cancel))?(?:\\s*\\.\\s*(status))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -258,7 +286,7 @@
           }
         },
         {
-          "match": "(\\$ui)(?:\\s*\\.\\s*(create|render|push|pop|get|animate|alert|action|menu|toast|error|loading|progress|preview))?(?:\\s*\\.\\s*(window))?\\b(?!\\$)",
+          "match": "(\\$ui)(?:\\s*\\.\\s*(create|render|push|fill|pop|popToRoot|get|animate|alert|action|menu|toast|clearToast|error|loading|progress|preview|selectIcon))?(?:\\s*\\.\\s*(window|vc))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -272,7 +300,7 @@
           }
         },
         {
-          "match": "(\\$pick)(?:\\s*\\.\\s*(date|data))?\\b(?!\\$)",
+          "match": "(\\$picker)(?:\\s*\\.\\s*(date|data))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -322,7 +350,7 @@
           }
         },
         {
-          "match": "(\\$addin)(?:\\s*\\.\\s*(save|delete|run))?(?:\\s*\\.\\s*(list))?\\b(?!\\$)",
+          "match": "(\\$addin)(?:\\s*\\.\\s*(save|delete|run|compile|eval))?(?:\\s*\\.\\s*(list|current))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -332,6 +360,89 @@
             },
             "3": {
               "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$browser)(?:\\s*\\.\\s*(exec))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$keyboard)(?:\\s*\\.\\s*(insert|delete|moveCursor|playInputClick|next|dismiss))?(?:\\s*\\.\\s*(hasText|selectedText))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            },
+            "3": {
+              "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$network)(?:\\s*\\.\\s*(startPinging|stopPinging))?(?:\\s*\\.\\s*(ifa_data|proxy_settings))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            },
+            "3": {
+              "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$ssh)(?:\\s*\\.\\s*(connect|disconnect))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$lua)(?:\\s*\\.\\s*(eval|load|call|retain|release))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$widget)(?:\\s*\\.\\s*(mode|modeChanged|height))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$intents)(?:\\s*\\.\\s*(finish))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
             }
           }
         },
@@ -347,13 +458,16 @@
           }
         },
         {
-          "match": "(\\$audio)(?:\\s*\\.\\s*(play))?\\b(?!\\$)",
+          "match": "(\\$audio)(?:\\s*\\.\\s*(play|pause|resume|stop|seek))?(?:\\s*\\.\\s*(status|duration|offset))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
             },
             "2": {
               "name": "entity.name.function.jsbox"
+            },
+            "3": {
+              "name": "variable.name.jsbox"
             }
           }
         },
@@ -391,7 +505,7 @@
           }
         },
         {
-          "match": "(\\$contact)(?:\\s*\\.\\s*(pick|fetch|create|save|delete))?\\b(?!\\$)",
+          "match": "(\\$contact)(?:\\s*\\.\\s*(pick|fetch|create|save|delete|fetchGroups|addGroup|deleteGroup|updateGroup|addToGroup|removeFromGroup))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -402,7 +516,7 @@
           }
         },
         {
-          "match": "(\\$location)(?:\\s*\\.\\s*(fetch|startUpdates|trackHeading|stopUpdates))?\\b(?!\\$)",
+          "match": "(\\$location)(?:\\s*\\.\\s*(fetch|startUpdates|trackHeading|stopUpdates|select))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -413,7 +527,35 @@
           }
         },
         {
-          "match": "(\\$motion)(?:\\s*\\.\\s*(startUpdates|stopUpdates))?\\b(?!\\$)",
+          "match": "(\\$motion)(?:\\s*\\.\\s*(startUpdates|stopUpdates))?(?:\\s*\\.\\s*(available))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            },
+            "3": {
+              "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$safari)(?:\\s*\\.\\s*(open|inject|addReadingItem))?(?:\\s*\\.\\s*(items))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            },
+            "3": {
+              "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$text)(?:\\s*\\.\\s*(analysis|tokenize|lookup|speech|base64Encode|base64Decode|URLEncode|URLDecode|HTMLEscape|HTMLUnescape|MD5|SHA1|SHA256|convertToPinYin|markdownToHtml|htmlToMarkdown|decodeData|sizeThatFits))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -424,7 +566,7 @@
           }
         },
         {
-          "match": "(\\$safari)(?:\\s*\\.\\s*(open))?\\b(?!\\$)",
+          "match": "(\\$quicklook)(?:\\s*\\.\\s*(open))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -435,18 +577,7 @@
           }
         },
         {
-          "match": "(\\$text)(?:\\s*\\.\\s*(analysis|tokenize|lookup|speech|base64Encode|base64Decode|URLEncode|URLDecode|HTMLEscape|HTMLUnescape|MD5|SHA1|SHA256))?\\b(?!\\$)",
-          "captures": {
-            "1": {
-              "name": "entity.name.class.jsbox"
-            },
-            "2": {
-              "name": "entity.name.function.jsbox"
-            }
-          }
-        },
-        {
-          "match": "(\\$share)(?:\\s*\\.\\s*(sheet|wechat|qq))?\\b(?!\\$)",
+          "match": "(\\$share)(?:\\s*\\.\\s*(sheet|wechat|qq|tim))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -468,7 +599,7 @@
           }
         },
         {
-          "match": "(\\$push)(?:\\s*\\.\\s*(schedule|cancel))?\\b(?!\\$)",
+          "match": "(\\$push)(?:\\s*\\.\\s*(schedule|cancel|clear))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
@@ -501,7 +632,18 @@
           }
         },
         {
-          "match": "(\\$console)(?:\\s*\\.\\s*(log|info|warn|error|clear))?\\b(?!\\$)",
+          "match": "(\\$console)(?:\\s*\\.\\s*(log|info|warn|error|clear|open|close))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$input)(?:\\s*\\.\\s*(text|speech))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
