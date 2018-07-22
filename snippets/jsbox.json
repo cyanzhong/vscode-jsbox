@@ -684,6 +684,13 @@
     ],
     "description": "Clear clipboard"
   },
+  "$include(path)": {
+    "prefix": "$include",
+    "body": [
+      "\\$include(\"${1:path}\");"
+    ],
+    "description": "Include an external script with path"
+  },
   "$l10n(key)": {
     "prefix": "$l10n",
     "body": [
@@ -2518,6 +2525,44 @@
       "\\$objc(\"${1:className}\");"
     ],
     "description": "Get an objective-c class dynamically"
+  },
+  "$objc_retain(object)": {
+    "prefix": "$objc_retain",
+    "body": [
+      "\\$objc_retain(${1:object});"
+    ],
+    "description": "Retain an objective-c object"
+  },
+  "$objc_release(object)": {
+    "prefix": "$objc_release",
+    "body": [
+      "\\$objc_release(${1:object});"
+    ],
+    "description": "Release an objective-c object"
+  },
+  "$get_protocol(name)": {
+    "prefix": "$get_protocol",
+    "body": [
+      "\\$get_protocol(\"${1:name}\");"
+    ],
+    "description": "Get an objective-c protocol"
+  },
+  "$objc_clean()": {
+    "prefix": "$objc_clean",
+    "body": [
+      "\\$objc_clean();"
+    ],
+    "description": "Clean objective-c definitions"
+  },
+  "$define_struct(object)": {
+    "prefix": "$define_struct",
+    "body": [
+      "\\$define_struct({",
+      "\tname: \"$1\",",
+      "\tprops: $2",
+      "});"
+    ],
+    "description": "Define an objective-c struct"
   },
   "$define(object)": {
     "prefix": "$define",
