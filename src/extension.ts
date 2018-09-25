@@ -23,6 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function bindWatcher() {
+    return
   let path = vscode.window.activeTextEditor.document.fileName;
   if (path.search(/\.js$|\.json$/i) > 0 && !watchers[path]) {
     let watcher = vscode.workspace.createFileSystemWatcher(path);
