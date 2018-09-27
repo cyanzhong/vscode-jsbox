@@ -25,7 +25,10 @@
   "activationEvents": [
     "onDebug",
     "onLanguage:javascript",
-    "onLanguage:json"
+    "onLanguage:json",
+    "onCommand:jsBox.setHost",
+    "onCommand:jsBox.syncFile",
+    "onCommand:jsBox.downloadFile"
   ],
   "main": "./out/extension",
   "scripts": {

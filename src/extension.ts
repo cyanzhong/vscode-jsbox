@@ -23,6 +23,9 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function bindWatcher() {
+  if (!vscode.window.activeTextEditor) {
+    return
+  }
   let path = vscode.window.activeTextEditor.document.fileName;
   if (path.search(/\.js$|\.json$/i) > 0 && !watchers[path]) {
     let watcher = vscode.workspace.createFileSystemWatcher(path);
@@ -183,7 +186,11 @@ function downloadFile() {
           response.pipe(stream);
           stream.on('finish', function() {
             stream.close();
-            require('open')(parentFolder(dest));
+            if (!dest.endsWith(".zip")) {
+              vscode.workspace.openTextDocument(vscode.Uri.file(dest)).then(doc => vscode.window.showTextDocument(doc))
+            } else {
+              require('open')(parentFolder(dest));
+            }
           });
         }).on('error', function(error) {
           fs.unlink(dest);
