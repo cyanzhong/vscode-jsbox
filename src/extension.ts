@@ -16,17 +16,11 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Observe command to download file
   context.subscriptions.push(vscode.commands.registerCommand('jsBox.downloadFile', downloadFile));
-
-  // Observe file changes
-  bindWatcher();
-  vscode.window.onDidChangeActiveTextEditor(bindWatcher);
 }
 
-function bindWatcher() {
-  if (!vscode.window.activeTextEditor) {
-    return
-  }
-  let path = vscode.window.activeTextEditor.document.fileName;
+// Only observe file changes after download or forced sync
+function bindWatcherForDocument(doc: vscode.TextDocument) {
+  let path = doc.fileName;
   if (path.search(/\.js$|\.json$/i) > 0 && !watchers[path]) {
     let watcher = vscode.workspace.createFileSystemWatcher(path);
     watcher.onDidChange(syncFileIfNeeded);
@@ -76,7 +70,7 @@ function parentFolder(filePath) {
 
 // Sync workspace (file or folder)
 function syncWorkspace() {
-  
+
   // console.log('[JSBox]', vscode.window.activeTextEditor.document.fileName);
 
   // Check host is available
@@ -133,6 +127,7 @@ function syncWorkspace() {
   } else {
     // Sync as script
     syncFile(filePath);
+    bindWatcherForDocument(vscode.window.activeTextEditor.document)
   }
 }
 
@@ -151,7 +146,7 @@ function downloadFile() {
 
   // Get file list from server
   request(`http://${host}/list?path=/`, (error, response, body) => {
-      
+
     if (error) {
       return showError(error);
     }
@@ -169,7 +164,7 @@ function downloadFile() {
       const option = {
         defaultUri: vscode.Uri.file(`${vscode.workspace.rootPath}/${fileName}`)
       };
-      
+
       // Show file dialog
       vscode.window.showSaveDialog(option).then(path => {
 
@@ -187,7 +182,10 @@ function downloadFile() {
           stream.on('finish', function() {
             stream.close();
             if (!dest.endsWith(".zip")) {
-              vscode.workspace.openTextDocument(vscode.Uri.file(dest)).then(doc => vscode.window.showTextDocument(doc))
+              vscode.workspace.openTextDocument(vscode.Uri.file(dest)).then(doc => {
+                vscode.window.showTextDocument(doc)
+                bindWatcherForDocument(doc)
+              })
             } else {
               require('open')(parentFolder(dest));
             }
