@@ -26,7 +26,9 @@
     "onDebug",
     "onLanguage:javascript",
     "onLanguage:json",
-    "onCommand:jsBox.setHost",
+    "onCommand:jsBox.addHost",
+    "onCommand:jsBox.deleteHost",
+    "onCommand:jsBox.showHosts",
     "onCommand:jsBox.syncFile",
     "onCommand:jsBox.downloadFile"
   ],
@@ -54,10 +56,21 @@
       "type": "object",
       "title": "JSBox configuration",
       "properties": {
-        "jsBox.host": {
-          "type": "string",
-          "default": "",
-          "description": "Fill this with your connect host."
+        "jsBox.hosts": {
+          "type": "array",
+          "default": [],
+          "description": "Fill this with your connect hosts.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ip": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
         },
         "jsBox.autoUpload": {
           "type": "boolean",
@@ -68,8 +81,16 @@
     },
     "commands": [
       {
-        "command": "jsBox.setHost",
-        "title": "JSBox: Set Host"
+        "command": "jsBox.addHost",
+        "title": "JSBox: Add Host"
+      },
+      {
+        "command": "jsBox.deleteHost",
+        "title": "JSBox: Delete Host"
+      },
+      {
+        "command": "jsBox.showHosts",
+        "title": "JSBox: Show Hosts"
       },
       {
         "command": "jsBox.syncFile",
@@ -83,7 +104,13 @@
     "menus": {
       "editor/title": [
         {
-          "command": "jsBox.setHost"
+          "command": "jsBox.addHost"
+        },
+        {
+          "command": "jsBox.deleteHost"
+        },
+        {
+          "command": "jsBox.showHosts"
         },
         {
           "command": "jsBox.syncFile"
