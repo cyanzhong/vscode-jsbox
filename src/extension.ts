@@ -105,7 +105,7 @@ function parentFolder(filePath) {
 
 // Sync workspace (file or folder)
 function syncWorkspace() {
-  
+
   // console.log('[JSBox]', vscode.window.activeTextEditor.document.fileName);
 
   // Check hosts is set
@@ -117,118 +117,118 @@ function syncWorkspace() {
   }
 
   for (const host of hosts) {
-  // Upload file to server
-  const request = require('request');
-  const fs = require('fs');
+    // Upload file to server
+    const request = require('request');
+    const fs = require('fs');
 
-  function syncFile(path) {
-    request.post({
+    function syncFile(path) {
+      request.post({
         url: `http://${host.ip}/upload`,
         formData: { 'files[]': fs.createReadStream(path) }
-    }, (error) => {
-      if (error) {
-        showError(error);
-      }
-    });
-  }
-
-  var filePath = path.resolve(vscode.window.activeTextEditor.document.fileName);
-  var directory = parentFolder(filePath);
-  var directoryRoot = path.parse(directory).root
-
-  while (directory != directoryRoot) {
-    let files = fs.readdirSync(directory);
-    const identifiers = ['assets', 'scripts', 'strings', 'config.json', 'main.js'];
-    if (identifiers.reduce((value, identifier) => value && files.includes(identifier), true)) {
-      break;
+      }, (error) => {
+        if (error) {
+          showError(error);
+        }
+      });
     }
-    directory = parentFolder(directory);
-  }
 
-  if (directory != directoryRoot) {
-    // Sync as package
+    var filePath = path.resolve(vscode.window.activeTextEditor.document.fileName);
+    var directory = parentFolder(filePath);
+    var directoryRoot = path.parse(directory).root
 
-    if (!fs.existsSync(path.join(directory, '.output'))) {
-      fs.mkdirSync(path.join(directory, '.output'));
-    }
-    var name = path.basename(directory)
-    var target = path.resolve(directory, '.output', `${name}.box`);
-    require('zip-folder')(directory, target, error => {
-      if (error) {
-        showError(error);
-      } else {
-        syncFile(target);
+    while (directory != directoryRoot) {
+      let files = fs.readdirSync(directory);
+      const identifiers = ['assets', 'scripts', 'strings', 'config.json', 'main.js'];
+      if (identifiers.reduce((value, identifier) => value && files.includes(identifier), true)) {
+        break;
       }
-    });
-  } else {
-    // Sync as script
-    syncFile(filePath);
+      directory = parentFolder(directory);
+    }
+
+    if (directory != directoryRoot) {
+      // Sync as package
+
+      if (!fs.existsSync(path.join(directory, '.output'))) {
+        fs.mkdirSync(path.join(directory, '.output'));
+      }
+      var name = path.basename(directory)
+      var target = path.resolve(directory, '.output', `${name}.box`);
+      require('zip-folder')(directory, target, error => {
+        if (error) {
+          showError(error);
+        } else {
+          syncFile(target);
+        }
+      });
+    } else {
+      // Sync as script
+      syncFile(filePath);
+    }
   }
-}
 }
 
 // Download File
 function downloadFile() {
   chooseHost().then(host => {
-  if (!host) {
-    showError('Host is unavailable');
-    return;
-  }
-
-  const request = require('request');
-  const fs = require('fs');
-
-  // Get file list from server
-    request(`http://${host.ip}/list?path=/`, (error, response, body) => {
-      
-    if (error) {
-      return showError(error);
+    if (!host) {
+      showError('Host is unavailable');
+      return;
     }
 
-    const data = JSON.parse(body);
-    const names = data.map(i => i.name);
-    names.unshift('/');
+    const request = require('request');
+    const fs = require('fs');
 
-    // Show file list
-    vscode.window.showQuickPick(names).then(fileName => {
+    // Get file list from server
+    request(`http://${host.ip}/list?path=/`, (error, response, body) => {
 
-      const filePath = fileName === '/' ? '/' : data.find(i => i.name === fileName).path;
-      fileName = fileName === '/' ? 'scripts' : fileName;
+      if (error) {
+        return showError(error);
+      }
 
-      const option = {
-        defaultUri: vscode.Uri.file(`${vscode.workspace.rootPath}/${fileName}`)
-      };
-      
-      // Show file dialog
-      vscode.window.showSaveDialog(option).then(path => {
+      const data = JSON.parse(body);
+      const names = data.map(i => i.name);
+      names.unshift('/');
 
-        if (path == undefined || path.fsPath == undefined || path.fsPath.length == 0) {
-          return;
-        }
+      // Show file list
+      vscode.window.showQuickPick(names).then(fileName => {
 
-        let dest = `${path.fsPath}${filePath.search(/\.js$/i) > 0 ? '' : '.zip'}`;
+        const filePath = fileName === '/' ? '/' : data.find(i => i.name === fileName).path;
+        fileName = fileName === '/' ? 'scripts' : fileName;
+
+        const option = {
+          defaultUri: vscode.Uri.file(`${vscode.workspace.rootPath}/${fileName}`)
+        };
+
+        // Show file dialog
+        vscode.window.showSaveDialog(option).then(path => {
+
+          if (path == undefined || path.fsPath == undefined || path.fsPath.length == 0) {
+            return;
+          }
+
+          let dest = `${path.fsPath}${filePath.search(/\.js$/i) > 0 ? '' : '.zip'}`;
           let url = `http://${host.ip}/download?path=${encodeURI(filePath)}`;
-        let stream = fs.createWriteStream(dest);
+          let stream = fs.createWriteStream(dest);
 
-        // Download file
+          // Download file
           require('http').get(url, function (response) {
-          response.pipe(stream);
+            response.pipe(stream);
             stream.on('finish', function () {
-            stream.close();
-            if (!dest.endsWith(".zip")) {
+              stream.close();
+              if (!dest.endsWith(".zip")) {
                 vscode.workspace.openTextDocument(vscode.Uri.file(dest)).then(doc => {
                   vscode.window.showTextDocument(doc)
                 })
-            } else {
-              require('open')(parentFolder(dest));
-            }
-          });
+              } else {
+                require('open')(parentFolder(dest));
+              }
+            });
           }).on('error', function (error) {
-          fs.unlink(dest);
-          showError(error);
+            fs.unlink(dest);
+            showError(error);
+          });
         });
       });
     });
-  });
   })
 }
