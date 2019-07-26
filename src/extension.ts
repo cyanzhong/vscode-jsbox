@@ -105,14 +105,29 @@ function syncWorkspace() {
   var filePath = path.resolve(vscode.window.activeTextEditor.document.fileName);
   var directory = parentFolder(filePath);
   var directoryRoot = path.parse(directory).root
+  var packageFound = false;
 
+  // Find JSBox package
   while (directory != directoryRoot) {
     let files = fs.readdirSync(directory);
     const identifiers = ['assets', 'scripts', 'strings', 'config.json', 'main.js'];
     if (identifiers.reduce((value, identifier) => value && files.includes(identifier), true)) {
+      packageFound = true;
       break;
     }
     directory = parentFolder(directory);
+  }
+
+  // Find Node.js package
+  if (!packageFound) {
+    directory = parentFolder(filePath);
+    while (directory != directoryRoot) {
+      const files = fs.readdirSync(directory);
+      if (files.includes('package.json') && files.includes('index.js')) {
+        break;
+      }
+      directory = parentFolder(directory);
+    }
   }
 
   if (directory != directoryRoot) {
