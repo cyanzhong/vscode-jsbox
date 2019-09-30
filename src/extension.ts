@@ -193,7 +193,7 @@ function downloadFile() {
         }
 
         let dest = `${path.fsPath}${filePath.search(/\.js$/i) > 0 ? '' : '.zip'}`;
-        let url = `http://${host}/download?path=${encodeURI(filePath)}`;
+        let url = `http://${host}/download?path=${encodeURIComponent(filePath)}`;
         let stream = fs.createWriteStream(dest);
 
         // Download file
