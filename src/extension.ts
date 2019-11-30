@@ -123,7 +123,7 @@ function syncWorkspace() {
     directory = parentFolder(filePath);
     while (directory != directoryRoot) {
       const files = fs.readdirSync(directory);
-      if (files.includes('package.json') && files.includes('index.js')) {
+      if (files.includes('package.json')) {
         break;
       }
       directory = parentFolder(directory);
