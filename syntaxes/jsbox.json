@@ -118,6 +118,17 @@
           }
         },
         {
+          "match": "(\\$keychain)(?:\\s*\\.\\s*(set|get|remove|clear|keys))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            }
+          }
+        },
+        {
           "match": "(\\$thread)(?:\\s*\\.\\s*(main|background))?\\b(?!\\$)",
           "captures": {
             "1": {
@@ -436,7 +447,95 @@
           }
         },
         {
+          "match": "(\\$sqlite)(?:\\s*\\.\\s*(open|dbQueue|close|update|query|beginTransaction|rollback|commit))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$socket)(?:\\s*\\.\\s*(new))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$server)(?:\\s*\\.\\s*(new|start))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "variable.name.jsbox"
+            }
+          }
+        },
+        {
           "match": "(\\$intents)(?:\\s*\\.\\s*(finish))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$xml)(?:\\s*\\.\\s*(parse))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$editor)(?:\\s*\\.\\s*(text|view|selectedRange|selectedText|hasText|isActive|canUndo|canRedo|save|undo|redo|activate|deactivate|textInRange|insertText|deleteBackward|setTextInRange))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$prefs)(?:\\s*\\.\\s*(open|get|set|all))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$nodejs)(?:\\s*\\.\\s*(version|path|query|run|listen|notify))?\\b(?!\\$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.class.jsbox"
+            },
+            "2": {
+              "name": "entity.name.function.jsbox"
+            }
+          }
+        },
+        {
+          "match": "(\\$imagekit)(?:\\s*\\.\\s*(render|info|grayscale|invert|sepia|adjustEnhance|adjustRedEye|adjustBrightness|adjustContrast|adjustGamma|adjustOpacity|blur|emboss|sharpen|unsharpen|detectEdge|mask|reflect|cropTo|scaleBy|scaleTo|scaleFill|scaleAspectFit|scaleAspectFill|rotate|rotatePixels|flip|concatenate|combine|rounded|circular|toFile|extractGIF|makeGIF|makeVideo))?\\b(?!\\$)",
           "captures": {
             "1": {
               "name": "entity.name.class.jsbox"
